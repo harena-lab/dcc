@@ -1,5 +1,7 @@
-# Affiliates - Free Jekyll Theme
+# Digital Content Component (DCC)
 
-[Live Demo](https://wowthemesnet.github.io/affiliates-jekyll-theme/) | [Docs & Download](https://bootstrapstarter.com/template-affiliates-bootstrap-jekyll/) |  [Buy me a coffee](https://www.wowthemes.net/donate/)
+A Digital Content Component (DCC) is a model and technology that enables the packaging of blocks of software and media inside components. These components can be customized and combined to solve small tasks; interact with a user; perform animations and simulations; or create applications.
 
-![jekyll-affiliates-theme](https://bootstrapstarter.com/assets/img/themes/affiliates-jekyll.jpg)
+## Use Affiliates - Free Jekyll Theme
+
+[Live Demo](https://wowthemesnet.github.io/affiliates-jekyll-theme/) | [Docs & Download](https://bootstrapstarter.com/template-affiliates-bootstrap-jekyll/)
