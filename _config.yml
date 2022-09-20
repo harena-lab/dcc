@@ -1,7 +1,7 @@
 title: "Digital Content Components"
 email:
 timezone: UTC
-baseurl: "/affiliates-jekyll-theme"
+baseurl: "/dcc"
 permalink: "/:title/"
 logo: 'assets/images/logo.png'
 favicon: 'assets/images/favicon.ico'
