@@ -19,6 +19,22 @@ DCC.component(
 )
 
 DCC.component(
+  'fastapi',
+  'dcc-rest',
+  {
+    oas: {
+      paths: {
+        'http://127.0.0.1:8000': {
+          'get': {
+            operationId: 'hello'
+          }
+        }
+      }
+    }
+  }
+)
+
+DCC.component(
   'coronavirus',
   'dcc-rest',
   {
