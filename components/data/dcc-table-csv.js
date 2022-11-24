@@ -120,34 +120,59 @@ class DCCTableCSV extends DCCVisual {
 
   _processTable (csv) {
     const sep = (this.hasAttribute('separator')) ? this.separator : ','
-    const lineRE =
-      new RegExp('(?:^|' + sep + ')[ \\t]*(?:(?:"([^"]*)")|([^' + sep + ']*))',
-      'g')
 
-    let prSchema = false
-    let lines = csv.split(/\r\n|\r|\n/)
     this._table = {
     }
-    if (this.hasAttribute('schema')) {
-      prSchema = true
-      if (this.schema.length > 0)
-        lines.unshift(this.schema)
-    }
-    const content = []
-    for (let l of lines) {
-      let cells = l.matchAll(lineRE)
-      let ln = []
-      for (const c of cells) {
-        if (c[0] != null && c[0].length > 0)
-          ln.push((c[1] != null) ? c[1] : c[2])
+
+    if (this.hasAttribute('schema') && this.schema.length > 0)
+      csv = this.schema + '\n' + csv
+    let csvp = csv.slice()
+
+    let prSchema = false
+    let table = []
+    while (csvp.length > 0) {
+      const line = []
+      while (csvp.length > 0 && csvp[0] != '\n' && csvp[0] != '\r') {
+        let open = 0
+        let close = -1
+        let quotation = (csvp[0] == '"')
+        if (quotation) {
+          open = 1
+          do {
+            close += 2
+            close = csvp.indexOf('"', close)
+          } while (close+1 < csvp.length && csvp[close+1] == '"')
+        } else {
+          close = csvp.indexOf(sep)
+          if (close == -1 || csvp.substring(0, close).includes('\n'))
+            close = csvp.indexOf('\n')
+          if (close == -1 || csvp.substring(0, close).includes('\r'))
+            close = csvp.indexOf('\r')
+          if (close == -1)
+            close = csvp.length + 1
+        }
+        let content = csvp.substring(open, close)
+        if (quotation) {
+          content = content.replace(/""/g, '"')
+          close++
+        }
+        line.push(content)
+        if (close < csvp.length && csvp[close] == sep)
+          close++
+        csvp = csvp.substring(close)
       }
-      if (prSchema) {
-        this._table.schema = ln
-        prSchema = false
-      } else if (ln.length > 0)
-        content.push(ln)
+      if (!prSchema) {
+        this._table.schema = line
+        prSchema = true
+      } else
+        table.push(line)
+      if (csvp.length > 0 && (csvp[0] == '\n' || csvp[0] == '\r'))
+        csvp = csvp.substring(1)
+      if (csvp.length > 0 && (csvp[0] == '\n' || csvp[0] == '\r'))
+        csvp = csvp.substring(1)
     }
-    this._table.content = content
+
+    this._table.content = table
 
     if (this.view) {
       let htmlTable = '<table>'
@@ -167,8 +192,6 @@ class DCCTableCSV extends DCCVisual {
       this._tableView.innerHTML = htmlTable
     }
 
-    console.log('===== table')
-    console.log(this._table)
     this._publish('table/updated',
       {
         table: this._table,
