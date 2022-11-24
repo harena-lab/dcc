@@ -103,7 +103,6 @@ class DCCTableCSV extends DCCVisual {
     } else
       file = event.dataTransfer.files[0]
     const content = await file.text()
-    console.log('file = ' + content)
 
     this._hideDropZone()
     this._processTable(content)
