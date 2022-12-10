@@ -13,6 +13,14 @@ class DCCDHTML extends DCCBase {
   async connectedCallback () {
     super.connectedCallback()
 
+    const sp = (new URL(document.location)).searchParams
+    if (sp.toString().length > 0) {
+      this._page = {}
+      for (const [key, value] of sp)
+        this._page[key] = value
+      this._record = {page_url: this._page}
+    }
+
     const template = document.createElement('template')
     template.innerHTML =
       '<div style="display:none"><slot></slot></div>'
@@ -191,15 +199,19 @@ class DCCDHTML extends DCCBase {
 
   recordUpdate (topic, message) {
     this._record = this._extractValue(message)
+    if (this._page != null)
+      this._record.page_url = this._page
     this._updateRender()
   }
 
   fieldUpdate (topic, message) {
     const id = MessageBus.extractLevelsSegment(topic, 3).replace(/\//g, '.')
     const value = this._extractValue(message)
-    if (id == '*')
+    if (id == '*') {
       this._record = value
-    else
+      if (this._page != null)
+        this._record.page_url = this._page
+    } else
       this._record[id] = value
     this._updateRender()
   }
