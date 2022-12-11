@@ -58,7 +58,7 @@ _h_____r______hc____
 <dcc-button label="Play" topic="timer/start"></dcc-button>
 <dcc-button label="Stop" topic="timer/stop"></dcc-button>
 
-<dcc-timer cycles="1000" interval="500" publish="state/next">
+<dcc-timer cycles="1000" interval="500" topic="state/next">
    <subscribe-dcc topic="timer/start" map="start"></subscribe-dcc>
    <subscribe-dcc topic="timer/stop" map="stop"></subscribe-dcc>
 </dcc-timer>

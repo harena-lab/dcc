@@ -21,7 +21,7 @@ __________
 <dcc-button label="Next" topic="state/next"></dcc-button>
 <dcc-button label="Play" topic="timer/start"></dcc-button>
 
-<dcc-timer cycles="10" interval="1000" publish="state/next">
+<dcc-timer cycles="10" interval="1000" topic="state/next">
    <subscribe-dcc topic="timer/start" map="start"></subscribe-dcc>
 </dcc-timer>
 

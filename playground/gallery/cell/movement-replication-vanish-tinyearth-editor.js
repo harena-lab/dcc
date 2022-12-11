@@ -65,7 +65,7 @@ _h_____r______hc____
 <dcc-button label="Carnivore" topic="type/carnivore"></dcc-button>
 <dcc-button label="Herbivore" topic="type/herbivore"></dcc-button>
 
-<dcc-timer cycles="1000" interval="500" publish="state/next">
+<dcc-timer cycles="1000" interval="500" topic="state/next">
    <subscribe-dcc topic="timer/start" map="start"></subscribe-dcc>
    <subscribe-dcc topic="timer/stop" map="stop"></subscribe-dcc>
 </dcc-timer>

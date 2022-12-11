@@ -26,7 +26,7 @@ _*_
 <dcc-button label="Rock" topic="type/rock"></dcc-button>
 <dcc-button label="Tree" topic="type/tree"></dcc-button>
 
-<dcc-timer cycles="10" interval="1000" publish="state/next">
+<dcc-timer cycles="10" interval="1000" topic="state/next">
    <subscribe-dcc topic="timer/start" map="start"></subscribe-dcc>
 </dcc-timer>
 
