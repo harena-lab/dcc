@@ -51,7 +51,8 @@ class AuthorCellManager {
       if (sourceMatch != null) {
         this.source = sourceMatch[1]
         const caseScript = document.createElement('script')
-        caseScript.src = 'gallery/' + this.source + '.js'
+        caseScript.src = ((this.source[0] == '/') ? '' : 'gallery/') +
+                         this.source + '.js'
         document.head.appendChild(caseScript)
       }
       const scriptMatch = parameters.match(/mode=([\w-]+)/i)
