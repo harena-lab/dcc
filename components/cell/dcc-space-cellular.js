@@ -14,7 +14,7 @@ class DCCSpaceCellular extends DCCBase {
     this._cellTypes = {}
     this._rules = {}
     this._wildcardRules = []
-    this._stateTypes = null
+    this._stateTypes = null  // state types in the grid
     this._tools = []
   }
 
@@ -29,7 +29,9 @@ class DCCSpaceCellular extends DCCBase {
     this._stateTypes = []
     for (const c of this._stateStr) {
       if (![' ', '_', '\r', '\n'].includes(c) &&
-             !this._stateTypes.includes(c)) { this._stateTypes.push(c) }
+          !this._stateTypes.includes(c)) {
+        this._stateTypes.push(c)
+      }
     }
 
     this._buildInnerHTML()
@@ -42,26 +44,37 @@ class DCCSpaceCellular extends DCCBase {
   }
 
   _buildInnerHTML () {
-    this._stateLines = []
+    this._stateLines = []  // initial state matrix in character format
 
     if (this._stateStr.length > 0) {
       this._stateLines = this._stateStr.split(/[\r\n]+/gm)
-      for (const s in this._stateLines) { this._stateLines[s] = this._stateLines[s].trim() }
+      for (const s in this._stateLines) {
+        this._stateLines[s] = this._stateLines[s].trim()
+      }
     }
 
-    if (!this.rows) { this.rows = (this._stateLines.length > 0) ? this._stateLines.length : 10 }
+    if (!this.rows) {
+      this.rows = (this._stateLines.length > 0) ? this._stateLines.length : 10
+    }
     if (!this.cols) {
       if (this._stateLines.length > 0) {
         let maior = this._stateLines[0].length
-        for (const s in this._stateLines) { maior = (this._stateLines[s].length > maior) ? this._stateLines[s].length : maior }
+        for (const s in this._stateLines) {
+          maior = (this._stateLines[s].length > maior)
+            ? this._stateLines[s].length : maior
+        }
         this.cols = maior
       } else { this.cols = 10 }
     }
 
-    if (!this.cellWidth) this.cellWidth = DCCSpaceCellular.defaultCellDimensions.width
-    if (!this.cellHeight) this.cellHeight = DCCSpaceCellular.defaultCellDimensions.height
+    if (!this.cellWidth)
+      this.cellWidth = DCCSpaceCellular.defaultCellDimensions.width
+    if (!this.cellHeight)
+      this.cellHeight = DCCSpaceCellular.defaultCellDimensions.height
 
-    if (!this.backgroundColor) { this.backgroundColor = (!this.backgroundImage) ? '#ffffc8' : '#ffffff00' }
+    if (!this.backgroundColor) {
+      this.backgroundColor = (!this.backgroundImage) ? '#ffffc8' : '#ffffff00'
+    }
 
     const width = this.cols * this.cellWidth + 'px'
     const height = this.rows * this.cellHeight + 'px'
@@ -81,9 +94,10 @@ class DCCSpaceCellular extends DCCBase {
         ? " stroke-width='2' stroke='#646464'" : '')
       .replace(/\[cover-image\]/g,
         (this.coverImage == null) ? ''
-          : "<image id='cover-image' href='" + this.coverImage + "' width='" + width +
-                                 "' height='" + height + "'" +
-                              ((this.coverOpacity) ? " opacity='" + this.coverOpacity + "'" : '') + '/>')
+          : "<image id='cover-image' href='" + this.coverImage +
+             "' width='" + width + "' height='" + height + "'" +
+             ((this.coverOpacity) ? " opacity='" + this.coverOpacity + "'" : '')
+             + '/>')
     this._cellGrid = this.querySelector('#cell-grid')
     this._cells = this.querySelector('#cells')
     this._svgSpace = this.querySelector('#svg-space')
@@ -105,9 +119,12 @@ class DCCSpaceCellular extends DCCBase {
         }
       }
 
-      this._cellGrid.setAttribute('transform', 'scale(' + this.scale + ' ' + this.scale + ')')
-      this._svgSpace.setAttribute('width', this.cols * this.cellWidth * this.scale + 'px')
-      this._svgSpace.setAttribute('height', this.rows * this.cellHeight * this.scale + 'px')
+      this._cellGrid.setAttribute('transform',
+        'scale(' + this.scale + ' ' + this.scale + ')')
+      this._svgSpace.setAttribute('width',
+        this.cols * this.cellWidth * this.scale + 'px')
+      this._svgSpace.setAttribute('height',
+        this.rows * this.cellHeight * this.scale + 'px')
       this._svgSpace.scrollIntoView({ block: 'end' })
     }
   }
@@ -120,7 +137,7 @@ class DCCSpaceCellular extends DCCBase {
     return DCCBase.observedAttributes.concat(
       ['label', 'cols', 'rows', 'cell-width', 'cell-height', 'scale',
        'background-color', 'background-image', 'cover-image', 'cover-opacity',
-       'grid', 'infinite', 'policy'])
+       'grid', 'infinite', 'policy', 'analysis'])
   }
 
   get label () {
@@ -208,7 +225,10 @@ class DCCSpaceCellular extends DCCBase {
   }
 
   set grid (hasGrid) {
-    if (hasGrid) { this.setAttribute('grid', '') } else { this.removeAttribute('grid') }
+    if (hasGrid)
+      this.setAttribute('grid', '')
+    else
+      this.removeAttribute('grid')
   }
 
   get infinite () {
@@ -216,7 +236,10 @@ class DCCSpaceCellular extends DCCBase {
   }
 
   set infinite (isInfinite) {
-    if (hasGrid) { this.setAttribute('infinite', '') } else { this.removeAttribute('infinite') }
+    if (hasGrid)
+      this.setAttribute('infinite', '')
+    else
+      this.removeAttribute('infinite')
   }
 
   /*
@@ -232,6 +255,15 @@ class DCCSpaceCellular extends DCCBase {
     this.setAttribute('policy', newValue)
   }
 
+  /* activates data publication for analysis */
+  get analysis () {
+    return this.getAttribute('analysis')
+  }
+
+  set analysis (newValue) {
+    this.setAttribute('analysis', newValue)
+  }
+
   /* non observed attributes */
 
   get cellGrid () {
@@ -245,8 +277,9 @@ class DCCSpaceCellular extends DCCBase {
   cellTypeRegister (topic, cellType) {
     cellType.space = this
     this._cellTypes[cellType.type] = cellType
-    if (!this._rules[cellType.type]) { this._rules[cellType.type] = this._wildcardRules.slice() }
-    if (!this._state && this._checkAllTypes()) { this._createIndividuals() }
+    if (!this._rules[cellType.type])
+      this._rules[cellType.type] = this._wildcardRules.slice()
+    if (!this._state && this._checkAllTypes()) this._createIndividuals()
   }
 
   _checkAllTypes () {
@@ -270,6 +303,7 @@ class DCCSpaceCellular extends DCCBase {
           }
         }
       }
+      this.analysisPublish()
     }
   }
 
@@ -280,10 +314,6 @@ class DCCSpaceCellular extends DCCBase {
       for (let c = 0; c < this.cols; c++) { row.push(null) }
       state.push(row)
     }
-    /*
-      console.log("=== state");
-      console.log(state);
-      */
     return state
   }
 
@@ -291,25 +321,23 @@ class DCCSpaceCellular extends DCCBase {
     const control = []
     for (let row = 0; row < this._state.length; row++) {
       control[row] = []
-      for (let col = 0; col < this._state[row].length; col++) { control[row][col] = false }
+      for (let col = 0; col < this._state[row].length; col++)
+        control[row][col] = false
     }
     return control
   }
 
   ruleRegister (topic, rule) {
     if (rule.transition[0] == '?' || rule.transition[0] == '!') {
-      // this._wildcardRules.push(rule)
       this._addNewRule(this._wildcardRules, rule)
       for (const r in this._cellTypes) {
         if (!this._rules[r]) { this._rules[r] = this._wildcardRules.slice() }
-        // this._rules[r].push(rule)
         this._addNewRule(this._rules[r], rule)
       }
     } else {
       if (!this._rules[rule.transition[0]]) {
         this._rules[rule.transition[0]] = this._wildcardRules.slice()
       }
-      // this._rules[rule.transition[0]].push(rule)
       this._addNewRule(this._rules[rule.transition[0]], rule)
     }
   }
@@ -363,13 +391,6 @@ class DCCSpaceCellular extends DCCBase {
     }
   }
 
-  /*
-   computeClickedCell(x, y) {
-      const mapped = this.mapCoordinatesToSpace(x, y);
-      return this.computeCell(mapped.x, mapped.y);
-   }
-   */
-
   mapCoordinatesToSpace (x, y) {
     const gc = this._cellGrid.getBoundingClientRect()
     const scale = (this.scale) ? this.scale : 1
@@ -402,10 +423,10 @@ class DCCSpaceCellular extends DCCBase {
 
   stateNext () {
     const spaceState = {
-      state: this._state,
+      state: this._state,  // state of each cell in the grid
       nrows: this._state.length,
       infinite: this.infinite,
-      cells: this._cells,
+      cells: this._cells,  // reference to the SVG cell space
       cellTypes: this._cellTypes,
       vtypes: Object.keys(this._cellTypes),
       changed: this._changeControl()
@@ -416,15 +437,32 @@ class DCCSpaceCellular extends DCCBase {
       for (let c = 0; c < spaceState.ncols; c++) {
         const cell = row[c]
         if (cell != null && !spaceState.changed[r][c] &&
-                this._rules[cell.dcc.type]) {
+            this._rules[cell.dcc.type]) {
           let triggered = false
           for (let m = 0; m < this._rules[cell.dcc.type].length &&
-                    !triggered; m++) {
+               !triggered; m++) {
             triggered = this._rules[cell.dcc.type][m]
               .computeRule(spaceState, r, c)
           }
         }
       }
+    }
+    this.analysisPublish()
+  }
+
+  analysisPublish () {
+    if (this.hasAttribute('analysis')) {
+      const analysis = {}
+      for (const row of this._state)
+        for (const cell of row) {
+          if (cell != null) {
+            if (analysis[cell.dcc.label] == null)
+              analysis[cell.dcc.label] = 1
+            else
+              analysis[cell.dcc.label]++
+          }
+        }
+      this._publish('dcc/analysis/data', analysis)
     }
   }
 }
@@ -466,18 +504,7 @@ class DCCSpaceCellularEditor extends DCCSpaceCellular {
     if (this._editorWasActive) { this.activateEditor() }
   }
 
-  /*
-   cellClicked(event) {
-      const gc = this._cellGrid.getBoundingClientRect();
-      const scale = (this.scale) ? this.scale : 1;
-      const cell = this.computeCell(Math.trunc((event.clientX - gc.x) / scale),
-                                    Math.trunc((event.clientY - gc.y) / scale));
-      this.changeState(this._editType, cell.row, cell.col);
-   }
-   */
-
   cellClicked (event) {
-    // const cell = this.computeClickedCell(event.clientX, event.clientY);
     const mapped = this.mapCoordinatesToSpace(event.clientX, event.clientY)
     const cell = this.computeCell(mapped.x, mapped.y)
     this.changeState(this._editType, cell.row, cell.col)

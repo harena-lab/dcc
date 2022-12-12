@@ -57,10 +57,14 @@
 :root {
    --dcc-chart-back: white;
    --dcc-chart-axis: black;
-   --dcc-chart-plot: red;
+   --dcc-chart-plot-1: red;
+   --dcc-chart-plot-2: green;
+   --dcc-chart-plot-3: purple;
    --dcc-chart-label: blue;
+
    --dcc-progress-back: lightgray;
    --dcc-progress-front: rgb(100, 100, 255);
+
    --dcc-play-font-family: "Courier New", monospace;
    --dcc-play-font-size: 1em;
    --dcc-play-background-color: lightgray;

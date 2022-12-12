@@ -10,17 +10,28 @@ class DCCChart extends DCCVisual {
     this._min = (min != null) ? min : DCCChart.defaultValueMin
     const max = this._toIntPair(this.max)
     this._max = (max != null) ? max : DCCChart.defaultValueMax
-    this._value = (this.hasAttribute('value')) ? this.value : '0%'
 
-    this._width = (this.hasAttribute('width')) ? parseInt(this.width) : 300
-    this._height = (this.hasAttribute('height')) ? parseInt(this.height) : 300
+    const style = window.getComputedStyle(this)
+    const width = (style.width == null) ? 0 : parseInt(style.width)
+    this._width = (!Number.isNaN(width) && width > 0) ? width : 300
+    const height = (style.height == null) ? 0 : parseInt(style.height)
+    this._height = (!Number.isNaN(height) && height > 0) ? height : 300
 
     this._plotWidth = this._width - 20
     this._plotHeight = this._height - 20
 
     this._updateRatio()
 
+    this._extractSeries(this.series)
+
     this._lastX = 0
+
+    let extraStyles = ''
+    if (this._series != null) {
+      for (const s in this._series)
+        extraStyles += '.dcc-chart-plot-' + s +
+                       ' {fill: ' + this._series[s] + ';}\n'
+    }
 
     const html = DCCChart.svgTemplate
       .replace(/\[width\]/g, this._width)
@@ -28,6 +39,7 @@ class DCCChart extends DCCVisual {
       .replace(/\[axis-y\]/g, this._height - 5)
       .replace(/\[axis-length\]/g, this._width - 14)
       .replace(/\[label-x-height\]/g, this._height - 15)
+      .replace(/\[extra-styles\]/g, extraStyles)
 
     let presentation = this._shadowHTML(html)
     this._plotArea = presentation.querySelector('#plot-area')
@@ -48,15 +60,7 @@ class DCCChart extends DCCVisual {
 
   static get observedAttributes () {
     return DCCVisual.observedAttributes.concat(
-      ['value', 'min', 'max', 'index'])
-  }
-
-  get value () {
-    return this.getAttribute('value')
-  }
-
-  set value (newValue) {
-    this.setAttribute('value', newValue)
+      ['min', 'max', 'series'])
   }
 
   get min () {
@@ -85,12 +89,13 @@ class DCCChart extends DCCVisual {
     this.setAttribute('max', newValue)
   }
 
-  get index () {
-    return this.hasAttribute('index')
+  get series () {
+    return this.getAttribute('series')
   }
 
-  set index (hasIndex) {
-    if (hasIndex) { this.setAttribute('index', '') } else { this.removeAttribute('index') }
+  set series (newValue) {
+    this.setAttribute('series', newValue)
+    this._extractSeries(newValue)
   }
 
   _toIntPair (value) {
@@ -103,6 +108,17 @@ class DCCChart extends DCCVisual {
     return result
   }
 
+  _extractSeries (value) {
+    if (value != null) {
+      const ser = value.split(',')
+      this._series = {}
+      for (const s of ser) {
+        const pv = s.split(':')
+        this._series[pv[0]] = pv[1]
+      }
+    }
+  }
+
   _updateRatio () {
     this._ratio = [this._plotWidth / (this._max[0] - this._min[0]),
                    this._plotHeight / (this._max[1] - this._min[1])]
@@ -112,41 +128,52 @@ class DCCChart extends DCCVisual {
     if (!topic.includes('/'))
       topic = 'action/' + topic
     switch (topic.toLowerCase()) {
-      case 'action/update':
-        this._value = this._messageValue(message)
-        this._updateChart(this._value.table)
-        break
       case 'action/include':
-        this._value = this._messageValue(message)
-        this._includeChart(this._value)
+        this.includeChart(this._messageValue(message))
+        break
+      case 'action/update':
+        const value = this._messageValue(message)
+        if (value != null && value.table)
+          this.updateChart(value.table)
         break
     }
   }
 
-  _includeChart (value) {
+  includeChart (value) {
     this._lastX++
     let x = this._lastX
-    let y = 0
+    let y = [0]
+    let series = []
     if (value != null) {
       if (Array.isArray(value)) {
         if (value.length > 1) {
           x = value[0]
-          y = value[1]
+          y = value.slide(1)
         } else
-          y = value[0]
+          y = [value[0]]
       } else if (typeof value === 'object') {
         if (value.x) x = value.x
-        if (value.y) y = value.y
+        y = []
+        for (const f in value) {
+          if (f != 'x') {
+            y.push(value[f])
+            series.push(f)
+          }
+        }
       } else
-        y = value
+        y = [value]
       if (!Number.isInteger(x)) x = parseInt(x)
-      if (!Number.isInteger(y)) y = parseInt(y)
+      for (const i in y)
+        if (!Number.isInteger(y[i])) y[i] = parseInt(y[i])
     }
 
-    this.plot(x, y)
+    if (this._series == null) series = null
+
+    for (const i in y)
+      this.plot(x, y[i], (series != null) ? series[i] : parseInt(i) + 1)
   }
 
-  _updateChart (table) {
+  updateChart (table) {
     if (table.content) {
       const dots = []
       const min = [parseFloat(table.content[0][0]),
@@ -167,7 +194,7 @@ class DCCChart extends DCCVisual {
       this._updateRatio()
 
       for (const d of dots)
-        this.plot(d[0], d[1])
+        this.plot(d[0], d[1], 1)
     }
 
     if (table.schema) {
@@ -176,18 +203,21 @@ class DCCChart extends DCCVisual {
     }
   }
 
-  plot (x, y) {
+  plot (x, y, series) {
+    console.log('=== plot')
+    console.log(x)
+    console.log(y)
+    console.log(series)
     const dot = document.createElementNS(
       'http://www.w3.org/2000/svg', 'circle')
     dot.setAttribute('cx', (x - this._min[0]) * this._ratio[0])
     dot.setAttribute('cy',
       this._plotHeight - ((y - this._min[1]) * this._ratio[1]))
     dot.setAttribute('r', 3)
-    dot.classList.add('dcc-chart-plot')
+    dot.classList.add('dcc-chart-plot-' + series)
     this._plotArea.appendChild(dot)
   }
 }
-
 (function () {
   customElements.define('dcc-chart', DCCChart)
 
@@ -198,8 +228,11 @@ class DCCChart extends DCCVisual {
 `<style>
   .dcc-chart-back {fill: var(--dcc-chart-back);}
   .dcc-chart-axis {stroke: var(--dcc-chart-axis);}
-  .dcc-chart-plot {fill: var(--dcc-chart-plot);}
+  .dcc-chart-plot-1 {fill: var(--dcc-chart-plot-1);}
+  .dcc-chart-plot-2 {fill: var(--dcc-chart-plot-2);}
+  .dcc-chart-plot-3 {fill: var(--dcc-chart-plot-3);}
   .dcc-chart-label {fill: var(--dcc-chart-label);}
+  [extra-styles]
 </style>
 <div id="chart-wrapper">
 <svg id="presentation-dcc" width="[width]" height="[height]" xmlns="http://www.w3.org/2000/svg">
