@@ -165,7 +165,7 @@ Selecione abaixo a chance de cada um dos eventos:
 <subscribe-dcc target="tardigrade-dies" topic="input/changed/tardigrade_dies" map="probability">
 </subscribe-dcc>
 
-<dcc-chart style="width:600px" min="0,0" max="100,1120" series="alga:green,nematode:red,tardigrade:blue"
+<dcc-chart style="width:600px" min="0,0" max="300,1120" series="alga:green,nematode:red,tardigrade:blue"
            subscribe="dcc/analysis/data:action/include" slide>
 </dcc-chart>
 

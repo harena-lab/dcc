@@ -150,8 +150,8 @@ class DCCChart extends DCCVisual {
   includeChart (value) {
     this._lastX++
     if (this.slide && this._lastX > this._max[0])
-      this._plotArea.setAttribute(
-        'transform', 'translate(' + (this._max[0] - this._lastX) + ',0)')
+      this._plotArea.setAttribute('transform', 'translate(' +
+        (this._max[0] - this._lastX) * this._ratio[0] + ',0)')
 
     let x = this._lastX
     let y = [0]
@@ -218,9 +218,9 @@ class DCCChart extends DCCVisual {
   plot (x, y, series) {
     const dot = document.createElementNS(
       'http://www.w3.org/2000/svg', 'circle')
-    dot.setAttribute('cx', (x - this._min[0]) * this._ratio[0])
+    dot.setAttribute('cx', (x - this._min[0]) * this._ratio[0] + 5)
     dot.setAttribute('cy',
-      this._plotHeight - ((y - this._min[1]) * this._ratio[1]))
+      this._height - ((y - this._min[1]) * this._ratio[1] + 5))
     dot.setAttribute('r', 3)
     dot.classList.add('dcc-chart-plot-' + series)
     this._plotArea.appendChild(dot)
