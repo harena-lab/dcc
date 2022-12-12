@@ -198,7 +198,7 @@ class DCCDHTML extends DCCBase {
   }
 
   recordUpdate (topic, message) {
-    this._record = this._extractValue(message)
+    this._record = this._messageValue(message)
     if (this._page != null)
       this._record.page_url = this._page
     this._updateRender()
@@ -206,7 +206,7 @@ class DCCDHTML extends DCCBase {
 
   fieldUpdate (topic, message) {
     const id = MessageBus.extractLevelsSegment(topic, 3).replace(/\//g, '.')
-    const value = this._extractValue(message)
+    const value = this._messageValue(message)
     if (id == '*') {
       this._record = value
       if (this._page != null)
@@ -214,12 +214,6 @@ class DCCDHTML extends DCCBase {
     } else
       this._record[id] = value
     this._updateRender()
-  }
-
-  _extractValue (message) {
-     return ((message.body != null)
-      ? ((message.body.value != null) ? message.body.value : message.body)
-      : ((message.value != null) ? message.value : message))
   }
 
   _updateRender () {
@@ -230,10 +224,8 @@ class DCCDHTML extends DCCBase {
 
   async connectionReady (id, topic) {
     super.connectionReady (id, topic)
-    // if (topic == 'data/record/retrieve' || topic == 'service/request/get') {
     const response = await this.request('retrieve', null, id)
     this.recordUpdate(topic, response)
-    //}
     this._ready = true
     this._publish('control/dhtml/ready',
       (this.hasAttribute('id')) ? {id: this.id} : null)

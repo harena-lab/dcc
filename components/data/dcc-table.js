@@ -47,12 +47,8 @@ class DCCTable extends DCCVisual {
         this._updateTable(this._value.table)
         break
       default:
-        if (tp.startsWith('table/retrieve/')) {
-          const value = ((message.body != null)
-            ? ((message.body.value != null) ? message.body.value : message.body)
-            : ((message.value != null) ? message.value : message))
-          this.retrieve(tp.substring(15), value)
-        }
+        if (tp.startsWith('table/retrieve/'))
+          this.retrieve(tp.substring(15), this._messageValue(message))
         break
     }
   }
