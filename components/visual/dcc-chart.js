@@ -6,8 +6,10 @@ class DCCChart extends DCCVisual {
   }
 
   connectedCallback () {
-    this._min = (this.hasAttribute('min')) ? this.min : DCCChart.defaultValueMin
-    this._max = (this.hasAttribute('max')) ? this.max : DCCChart.defaultValueMax
+    const min = this._toIntPair(this.min)
+    this._min = (min != null) ? min : DCCChart.defaultValueMin
+    const max = this._toIntPair(this.max)
+    this._max = (max != null) ? max : DCCChart.defaultValueMax
     this._value = (this.hasAttribute('value')) ? this.value : '0%'
 
     this._width = (this.hasAttribute('width')) ? parseInt(this.width) : 300
@@ -15,6 +17,10 @@ class DCCChart extends DCCVisual {
 
     this._plotWidth = this._width - 20
     this._plotHeight = this._height - 20
+
+    this._updateRatio()
+
+    this._lastX = 0
 
     const html = DCCChart.svgTemplate
       .replace(/\[width\]/g, this._width)
@@ -32,8 +38,6 @@ class DCCChart extends DCCVisual {
 
     this._setPresentation(presentation)
     super.connectedCallback()
-
-    // this._updateChart()
 
     this._presentationIsReady()
   }
@@ -60,7 +64,11 @@ class DCCChart extends DCCVisual {
   }
 
   set min (newValue) {
-    this._min = newValue
+    const convert = this._toIntPair(newValue)
+    if (convert != null) {
+      this._min = convert
+      this._updateRatio()
+    }
     this.setAttribute('min', newValue)
   }
 
@@ -69,7 +77,11 @@ class DCCChart extends DCCVisual {
   }
 
   set max (newValue) {
-    this._max = newValue
+    const convert = this._toIntPair(newValue)
+    if (convert != null) {
+      this._max = convert
+      this._updateRatio()
+    }
     this.setAttribute('max', newValue)
   }
 
@@ -81,48 +93,81 @@ class DCCChart extends DCCVisual {
     if (hasIndex) { this.setAttribute('index', '') } else { this.removeAttribute('index') }
   }
 
+  _toIntPair (value) {
+    let result = null
+    if (value != null) {
+      const v = value.split(',')
+      if (v.length > 1)
+        result = [parseInt(v[0]), parseInt(v[1])]
+    }
+    return result
+  }
+
+  _updateRatio () {
+    this._ratio = [this._plotWidth / (this._max[0] - this._min[0]),
+                   this._plotHeight / (this._max[1] - this._min[1])]
+  }
+
   notify (topic, message) {
     if (!topic.includes('/'))
       topic = 'action/' + topic
     switch (topic.toLowerCase()) {
       case 'action/update':
-        this._value = ((message.value) ? message.value : message)
+        this._value = this._messageValue(message)
         this._updateChart(this._value.table)
+        break
+      case 'action/include':
+        this._value = this._messageValue(message)
+        this._includeChart(this._value)
         break
     }
   }
 
+  _includeChart (value) {
+    this._lastX++
+    let x = this._lastX
+    let y = 0
+    if (value != null) {
+      if (Array.isArray(value)) {
+        if (value.length > 1) {
+          x = value[0]
+          y = value[1]
+        } else
+          y = value[0]
+      } else if (typeof value === 'object') {
+        if (value.x) x = value.x
+        if (value.y) y = value.y
+      } else
+        y = value
+      if (!Number.isInteger(x)) x = parseInt(x)
+      if (!Number.isInteger(y)) y = parseInt(y)
+    }
+
+    this.plot(x, y)
+  }
+
   _updateChart (table) {
-    console.log('=== updating table')
-    console.log(table)
     if (table.content) {
       const dots = []
-      let minX = parseFloat(table.content[0][0])
-      let minY = parseFloat(table.content[0][1])
-      let maxX = minX
-      let maxY = minY
+      const min = [parseFloat(table.content[0][0]),
+                   parseFloat(table.content[0][1])]
+      const max = [min[0], min[1]]
       for (const d of table.content) {
         const dt = [parseFloat(d[0]), parseFloat(d[1])]
-        minX = (dt[0] < minX) ? dt[0] : minX
-        minY = (dt[1] < minY) ? dt[1] : minY
-        maxX = (dt[0] > maxX) ? dt[0] : maxX
-        maxY = (dt[1] > maxY) ? dt[1] : maxY
+        min[0] = (dt[0] < min[0]) ? dt[0] : min[0]
+        min[1] = (dt[1] < min[1]) ? dt[1] : min[1]
+        max[0] = (dt[0] > max[0]) ? dt[0] : max[0]
+        max[1] = (dt[1] > max[1]) ? dt[1] : max[1]
         dots.push(dt)
       }
 
-      const ratioX = this._plotWidth / (maxX - minX)
-      const ratioY = this._plotHeight / (maxY - minY)
+      if (!this.hasAttribute('min')) this._min = min
+      if (!this.hasAttribute('max')) this._max = max
 
-      for (const d of dots) {
-        console.log(d)
-        const dot = document.createElementNS(
-          'http://www.w3.org/2000/svg', 'circle')
-        dot.setAttribute('cx', (d[0]-minX) * ratioX)
-        dot.setAttribute('cy', this._plotHeight - ((d[1]-minY) * ratioY))
-        dot.setAttribute('r', 3)
-        dot.classList.add('dcc-chart-plot')
-        this._plotArea.appendChild(dot)
-      }
+      this._updateRatio()
+
+      for (const d of dots)
+        this.plot(d[0], d[1])
     }
 
     if (table.schema) {
@@ -130,13 +175,24 @@ class DCCChart extends DCCVisual {
       this._yLabel.nodeValue = table.schema[1]
     }
   }
+
+  plot (x, y) {
+    const dot = document.createElementNS(
+      'http://www.w3.org/2000/svg', 'circle')
+    dot.setAttribute('cx', (x - this._min[0]) * this._ratio[0])
+    dot.setAttribute('cy',
+      this._plotHeight - ((y - this._min[1]) * this._ratio[1]))
+    dot.setAttribute('r', 3)
+    dot.classList.add('dcc-chart-plot')
+    this._plotArea.appendChild(dot)
+  }
 }
 
 (function () {
   customElements.define('dcc-chart', DCCChart)
 
-  DCCChart.defaultValueMin = 0
-  DCCChart.defaultValueMax = 100
+  DCCChart.defaultValueMin = [0,0]
+  DCCChart.defaultValueMax = [100,100]
 
   DCCChart.svgTemplate =
 `<style>
