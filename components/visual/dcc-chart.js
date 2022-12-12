@@ -60,7 +60,7 @@ class DCCChart extends DCCVisual {
 
   static get observedAttributes () {
     return DCCVisual.observedAttributes.concat(
-      ['min', 'max', 'series'])
+      ['min', 'max', 'series', 'slide'])
   }
 
   get min () {
@@ -96,6 +96,14 @@ class DCCChart extends DCCVisual {
   set series (newValue) {
     this.setAttribute('series', newValue)
     this._extractSeries(newValue)
+  }
+
+  get slide () {
+    return this.hasAttribute('slide')
+  }
+
+  set slide (isAuthor) {
+    if (isAuthor) { this.setAttribute('slide', '') } else { this.removeAttribute('slide') }
   }
 
   _toIntPair (value) {
@@ -141,6 +149,11 @@ class DCCChart extends DCCVisual {
 
   includeChart (value) {
     this._lastX++
+
+    if (this.slide && this._lastX > this._max[1])
+      this._plotArea.setAttribute(
+        'transform', 'translate(' + (this._max[1] - this._lastX) + ',0)')
+
     let x = this._lastX
     let y = [0]
     let series = []
@@ -204,10 +217,6 @@ class DCCChart extends DCCVisual {
   }
 
   plot (x, y, series) {
-    console.log('=== plot')
-    console.log(x)
-    console.log(y)
-    console.log(series)
     const dot = document.createElementNS(
       'http://www.w3.org/2000/svg', 'circle')
     dot.setAttribute('cx', (x - this._min[0]) * this._ratio[0])
