@@ -149,10 +149,9 @@ class DCCChart extends DCCVisual {
 
   includeChart (value) {
     this._lastX++
-
-    if (this.slide && this._lastX > this._max[1])
+    if (this.slide && this._lastX > this._max[0])
       this._plotArea.setAttribute(
-        'transform', 'translate(' + (this._max[1] - this._lastX) + ',0)')
+        'transform', 'translate(' + (this._max[0] - this._lastX) + ',0)')
 
     let x = this._lastX
     let y = [0]

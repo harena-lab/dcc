@@ -351,8 +351,6 @@ class DCCSpaceCellular extends DCCBase {
       ruleSet.splice(r, 0, rule)
     } else
       ruleSet.push(rule)
-    console.log('=== rule set state')
-    console.log(ruleSet)
   }
 
   toolRegister (topic, tool) {

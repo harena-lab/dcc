@@ -11,9 +11,6 @@ class RuleDCCCellNeighbor extends RuleDCCTransition {
     this.innerHTML = ''
     this._ruleNeighbors = this.buildNeighborList(this.neighbors)
 
-    console.log('=== neighbors')
-    console.log(this._ruleNeighbors)
-
     if (!this.hasAttribute('probability')) this.probability = '100'
     this._decimalProbability = parseInt(this.probability) / 100
     this._step = (this.hasAttribute('step')) ? parseInt(this.step) : 1
