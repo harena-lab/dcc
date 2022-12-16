@@ -339,7 +339,7 @@ class DCCGroupSelect extends DCCBlock {
 
   async _renderInterface () {
     // === presentation setup (DCC Block)
-    this._applyRender(this._statement, 'innerHTML')
+    this._applyRender(this._statement, 'innerHTML', 'text')
     this._presentationIsReady()
   }
 
