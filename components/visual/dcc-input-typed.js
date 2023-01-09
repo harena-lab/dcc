@@ -86,7 +86,7 @@ class DCCInputTyped extends DCCInput {
   async _renderInterface () {
     // === pre presentation setup
     const statement = (this._xstyle.startsWith('out'))
-                        ? '' : this._statement
+                        ? '' : '<label>' + this._statement + '</label>'
 
     let html
     if (this.hasAttribute('rows') && this.rows > 1) {
@@ -129,8 +129,8 @@ class DCCInputTyped extends DCCInput {
   // <TODO> temporary (width: 100%)
   // <TODO> transfer the definition of font to CSS
   DCCInputTyped.templateElements = {
-    text: "<div class='[render]'><label>[statement]</label><input type='text' id='[variable]' [itype]></input></div>",
-    area: "<div class='[render]'><label>[statement]</label><textarea placeholder='You can write here...' rows='[rows]' style='width:100%' id='[variable]'></textarea></div>"
+    text: "<div class='[render]'>[statement]<input type='text' id='[variable]' [itype]></input></div>",
+    area: "<div class='[render]'>[statement]<textarea placeholder='You can write here...' rows='[rows]' style='width:100%' id='[variable]'></textarea></div>"
   }
 
   DCCInputTyped.elementTag = 'dcc-input-typed'
