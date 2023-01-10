@@ -214,7 +214,6 @@ class DCCVisual extends DCCBase {
     if (this._pendingDisplay) {
       this._pendingDisplay = false
       this._updateDisplay()
-      // this._hideReady()
     }
   }
 }

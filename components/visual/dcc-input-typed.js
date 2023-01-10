@@ -13,6 +13,12 @@ class DCCInputTyped extends DCCInput {
     super.connectedCallback()
     this.innerHTML = ''
 
+    if (this.hasAttribute('id')) {
+      this.changeReadonly = this.changeReadonly.bind(this)
+      this._provides(this.id, 'readonly/true', this.changeReadonly)
+      this._provides(this.id, 'readonly/false', this.changeReadonly)
+    }
+
     this._publish('input/ready/' + this._variable.replace(/\./g, '/'),
       DCCInputTyped.elementTag)
   }
@@ -23,7 +29,7 @@ class DCCInputTyped extends DCCInput {
 
   static get observedAttributes () {
     return DCCInput.observedAttributes.concat(
-      ['itype', 'rows', 'vocabularies'])
+      ['itype', 'rows', 'vocabularies', 'readonly'])
   }
 
   get itype () {
@@ -50,7 +56,40 @@ class DCCInputTyped extends DCCInput {
     this.setAttribute('vocabularies', newValue)
   }
 
+  get readonly () {
+    return this.hasAttribute('readonly')
+  }
+
+  set readonly (isReadonly) {
+    if (isReadonly) { this.setAttribute('readonly', '') }
+    else { this.removeAttribute('readonly') }
+    this._updateReadonly()
+  }
+
   /* Event handling */
+
+  _updateReadonly () {
+    if (this._presentationReady)
+      this._presentationInput.readOnly = this.readonly
+    else
+      this._pendingReadonly = true
+  }
+
+  changeReadonly(topic, message) {
+    if (this._presentationInput != null) {
+      if (topic == 'readonly/true')
+        this.readonly = true
+      else
+        this.readonly = false
+    }
+  }
+
+  _presentationIsReady () {
+    if (this._pendingReadonly)
+      this._pendingReadonly = false
+    super._presentationIsReady()
+    this._updateReadonly()
+  }
 
   inputTyped () {
     this.changed = true
@@ -88,8 +127,11 @@ class DCCInputTyped extends DCCInput {
     const statement = (this._xstyle.startsWith('out'))
                         ? '' : '<label>' + this._statement + '</label>'
 
+    const ipType =
+      (this.hasAttribute('rows') && this.rows > 1) ? 'textarea' : 'input'
+
     let html
-    if (this.hasAttribute('rows') && this.rows > 1) {
+    if (ipType == 'textarea') {
       html = DCCInputTyped.templateElements.area
         .replace('[statement]', statement)
         .replace('[rows]', this.rows)
@@ -110,6 +152,8 @@ class DCCInputTyped extends DCCInput {
       await this._applyRender(this._statement, 'innerHTML', 'text')
       presentation = await this._applyRender(html, 'innerHTML', 'input')
     } else { presentation = await this._applyRender(html, 'innerHTML', 'input') }
+
+    this._presentationInput = presentation.querySelector(ipType)
 
     // === post presentation setup
     const selector = '#' + this._variable.replace(/\./g, '\\.')
