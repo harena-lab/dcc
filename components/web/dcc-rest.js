@@ -97,21 +97,17 @@ class DCCRest extends DCCBase {
 
         await axios(request)
           .then(function (endpointResponse) {
-            // console.log(endpointResponse.status)
-            // this._publish('data/service/' + opid, endpointResponse.data, true)
             result = endpointResponse.data
-            // console.log('============')
-            // console.log(endpointResponse.data)
           })
           .catch(function (error) {
-            console.log('===== error in request')
-            console.log(error.message)
-            console.log('=====')
             result = {
-              error: error.message
+              error: (error.response != null && error.response.data != null &&
+                      error.response.data.error != null)
+                     ? error.response.data.error
+                     : {code: (error.response.status) ? error.response.status : 500,
+                        message: error.message}
             }
           })
-
       }
     }
     return result
