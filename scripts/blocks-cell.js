@@ -3,15 +3,34 @@
  */
 
 class ScriptBlocksCell {
-  static create (types) {
-    ScriptBlocksCell.s = new ScriptBlocksCell(types)
+  static create (types, iconPath) {
+    ScriptBlocksCell.s = new ScriptBlocksCell(
+      types, (iconPath || ScriptBlocksCell.defaultIconPath))
   }
 
-  constructor (types) {
+  constructor (types, iconPath) {
+    this._iconPath = iconPath
+
+    this._arrowsHorizontal = [
+      [{src: iconPath + 'arrow-right-solid.svg',
+        width: 25, height: 25, alt: 'direita'}, 'right'],
+      [{src: iconPath + 'arrow-left-solid.svg',
+        width: 25, height: 25, alt: 'esquerda'}, 'left']
+    ]
+    this._arrowsVertical = [
+      [{src: iconPath + 'arrow-up-solid.svg',
+        width: 25, height: 25, alt: 'cima'}, 'up'],
+      [{src: iconPath + 'arrow-down-solid.svg',
+        width: 25, height: 25, alt: 'baixo'}, 'down']
+    ]
+
     this._selectTypes = []
     let emptyPos = -1
     for (const t in types) {
-      if (types[t][0] == 'empty') { emptyPos = t } else { this._selectTypes.push([types[t][2], types[t][0]]) }
+      if (types[t][0] == 'empty')
+        emptyPos = t
+      else
+        this._selectTypes.push([types[t][2], types[t][0]])
     }
     this._allSelectTypes = this._selectTypes.slice()
     this._allSelectTypes.unshift(
@@ -23,7 +42,8 @@ class ScriptBlocksCell {
     console.log(this._allSelectTypes)
 
     this._types = {}
-    if (emptyPos == -1) { this._types[ScriptBlocksCell.emptyType[0]] = ScriptBlocksCell.emptyType[1] }
+    if (emptyPos == -1)
+      this._types[ScriptBlocksCell.emptyType[0]] = ScriptBlocksCell.emptyType[1]
     for (const t of types) { this._types[t[0]] = t[1] }
 
     this._buildBlocks()
@@ -79,7 +99,7 @@ class ScriptBlocksCell {
             },
             {
               type: 'field_image',
-              src: '../icons/arrows.png',
+              src: ScriptBlocksCell.s._iconPath + 'arrows.png',
               width: 22,
               height: 22
             },
@@ -126,7 +146,7 @@ class ScriptBlocksCell {
             {
               type: 'field_dropdown',
               name: 'direction',
-              options: ScriptBlocksCell.arrowsHorizontal
+              options: ScriptBlocksCell.s._arrowsHorizontal
             },
             {
               type: 'field_dropdown',
@@ -143,7 +163,7 @@ class ScriptBlocksCell {
             },
             {
               type: 'field_image',
-              src: '../icons/light-green-block.png',
+              src: ScriptBlocksCell.s._iconPath + 'light-green-block.png',
               width: 57,
               height: 36
             },
@@ -191,7 +211,7 @@ class ScriptBlocksCell {
             {
               type: 'field_dropdown',
               name: 'direction',
-              options: ScriptBlocksCell.arrowsVertical
+              options: ScriptBlocksCell.s._arrowsVertical
             }
           ],
           message3: '%1 %2',
@@ -279,7 +299,7 @@ class ScriptBlocksCell {
             },
             {
               type: 'field_image',
-              src: '../icons/arrows.png',
+              src: ScriptBlocksCell.s._iconPath + 'arrows.png',
               width: 22,
               height: 22
             },
@@ -794,16 +814,9 @@ _*_
 }
 
 (function () {
-  ScriptBlocksCell.emptyType = ['empty', '_', 'vazio']
+  ScriptBlocksCell.defaultIconPath = '/scripts/icon/'
 
-  ScriptBlocksCell.arrowsHorizontal = [
-    [{src: '../icons/arrow-right-solid.svg', width: 25, height: 25, alt: 'direita'}, 'right'],
-    [{src: '../icons/arrow-left-solid.svg', width: 25, height: 25, alt: 'esquerda'}, 'left']
-  ]
-  ScriptBlocksCell.arrowsVertical = [
-    [{src: '../icons/arrow-up-solid.svg', width: 25, height: 25, alt: 'cima'}, 'up'],
-    [{src: '../icons/arrow-down-solid.svg', width: 25, height: 25, alt: 'baixo'}, 'down']
-  ]
+  ScriptBlocksCell.emptyType = ['empty', '_', 'vazio']
 
   ScriptBlocksCell.transitions = {
     move: '_o_t>_t_o',

@@ -99,7 +99,7 @@ class AuthorCellManager {
              minScale: 0.3,
              scaleSpeed: 1.2,
              pinch: true},
-          media: '../../lib/blockly-4be82c0/media/',
+          media: '../../lib/blockly-9.2.0/media/',
           toolbox: document.getElementById('toolbox')
         })
 
