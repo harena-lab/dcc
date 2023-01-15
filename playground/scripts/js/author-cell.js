@@ -48,6 +48,26 @@ class AuthorCellManager {
 
     const parameters = (new URL(document.location)).searchParams
 
+    const md = mode || parameters.get('mode')
+    if (md != null) {
+      if (md.includes('no-script')) {
+        this._scriptActive = false
+        AuthorCellManager.stateVis['script-panel'][0] = 0
+      }
+      if (md.includes('no-hide'))
+        AuthorCellManager.stateVis['types-panel'][1] = 1
+    }
+
+    if (this._scriptActive) {
+      document.querySelector('#action-panels').innerHTML =
+            AuthorCellManager.scriptPanel
+      document.querySelector('#button-retract-script').hide()
+      document.querySelector('#button-retract-cells').hide()
+    } else {
+      document.querySelector('#action-panels').innerHTML =
+            AuthorCellManager.noScriptPanel
+    }
+
     if (source != null)
       AuthorCellManager.instance.insertSource(...source)
     else {
@@ -60,27 +80,7 @@ class AuthorCellManager {
       }
     }
 
-    const md = mode || parameters.get('mode')
-    if (md != null) {
-      if (md.includes('no-script')) {
-        this._scriptActive = false
-        AuthorCellManager.stateVis['script-panel'][0] = 0
-      }
-      if (md.includes('no-hide'))
-        AuthorCellManager.stateVis['types-panel'][1] = 1
-    }
-
     this._caseId = caseId || parameters.get('case')
-
-    if (this._scriptActive) {
-      document.querySelector('#action-panels').innerHTML =
-            AuthorCellManager.scriptPanel
-      document.querySelector('#button-retract-script').hide()
-      document.querySelector('#button-retract-cells').hide()
-    } else {
-      document.querySelector('#action-panels').innerHTML =
-            AuthorCellManager.noScriptPanel
-    }
   }
 
   insertSource (name, types, blocks, source, buttonTypes) {
