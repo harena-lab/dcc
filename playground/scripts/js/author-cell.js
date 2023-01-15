@@ -86,6 +86,10 @@ class AuthorCellManager {
   }
 
   insertSource (name, types, blocks, source, buttonTypes) {
+    document.querySelector('#render-panel').innerHTML = source
+    document.querySelector('#source-name').innerHTML = name
+    document.querySelector('#types-panel').innerHTML = buttonTypes
+
     if (this._scriptActive) {
       ScriptBlocksCell.create(types)
 
@@ -113,10 +117,6 @@ class AuthorCellManager {
        const zoomToFit = new ZoomToFitControl(this._playground);
        zoomToFit.init();
     }
-
-    document.querySelector('#render-panel').innerHTML = source
-    document.querySelector('#source-name').innerHTML = name
-    document.querySelector('#types-panel').innerHTML = buttonTypes
 
     this._updateVisibility()
   }
