@@ -17,7 +17,7 @@ class AuthorCellManager {
   }
 
   // optional parameters - without parameters it gets from the URL
-  start (source, mode, caseId) {
+  start (source, mode, caseId, libPath) {
     this.switchEditor = this.switchEditor.bind(this)
     this.playSpace = this.playSpace.bind(this)
     this.stopSpace = this.stopSpace.bind(this)
@@ -42,6 +42,8 @@ class AuthorCellManager {
     MessageBus.i.subscribe('control/cells/retract', this.cellsRetract)
 
     MessageBus.i.subscribe('input/changed/#', this.updateInputTrack)
+
+    this._libPath = libPath || AuthorCellManager.defaultLibPath
 
     this._scriptActive = true
     this._caseId = null
@@ -104,7 +106,7 @@ class AuthorCellManager {
              minScale: 0.3,
              scaleSpeed: 1.2,
              pinch: true},
-          media: '../../lib/blockly-9.2.0/media/',
+          media: this._libPath + 'lib/blockly-9.2.0/media/',
           toolbox: document.getElementById('toolbox')
         })
 
@@ -258,6 +260,8 @@ class AuthorCellManager {
 
 (function () {
   AuthorCellManager.instance = new AuthorCellManager()
+
+  AuthorCellManager.defaultLibPath = '../../'
 
   AuthorCellManager.stateVis = {
     'play-button': [0, 1],
