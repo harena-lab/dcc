@@ -17,7 +17,7 @@ class AuthorCellManager {
   }
 
   // optional parameters - without parameters it gets from the URL
-  start (source, mode, caseId, libPath) {
+  start (setup, mode, caseId, libPath) {
     this.switchEditor = this.switchEditor.bind(this)
     this.playSpace = this.playSpace.bind(this)
     this.stopSpace = this.stopSpace.bind(this)
@@ -60,18 +60,8 @@ class AuthorCellManager {
         AuthorCellManager.stateVis['types-panel'][1] = 1
     }
 
-    if (this._scriptActive) {
-      document.querySelector('#action-panels').innerHTML =
-            AuthorCellManager.scriptPanel
-      document.querySelector('#button-retract-script').hide()
-      document.querySelector('#button-retract-cells').hide()
-    } else {
-      document.querySelector('#action-panels').innerHTML =
-            AuthorCellManager.noScriptPanel
-    }
-
-    if (source != null)
-      AuthorCellManager.instance.insertSource(...source)
+    if (setup != null)
+      this._insertHTML(setup.name, setup.source, setup.buttonTypes)
     else {
       this.source = parameters.get('source')
       if (this.source != null) {
@@ -82,14 +72,33 @@ class AuthorCellManager {
       }
     }
 
+    if (this._scriptActive) {
+      document.querySelector('#action-panels').innerHTML =
+            AuthorCellManager.scriptPanel
+      document.querySelector('#button-retract-script').hide()
+      document.querySelector('#button-retract-cells').hide()
+    } else {
+      document.querySelector('#action-panels').innerHTML =
+            AuthorCellManager.noScriptPanel
+    }
+
+    if (setup != null) this._insertHTML(setup.types, setup.blocks)
+
     this._caseId = caseId || parameters.get('case')
   }
 
   insertSource (name, types, blocks, source, buttonTypes) {
+    this._insertHTML(name, source, buttonTypes)
+    this._insertBlockly(types, blocks)
+  }
+
+  _insertHTML (name, source, buttonTypes) {
     document.querySelector('#render-panel').innerHTML = source
     document.querySelector('#source-name').innerHTML = name
     document.querySelector('#types-panel').innerHTML = buttonTypes
+  }
 
+  _insertBlockly (types, blocks) {
     if (this._scriptActive) {
       ScriptBlocksCell.create(types)
 
