@@ -101,11 +101,14 @@ class DCCRest extends DCCBase {
           })
           .catch(function (error) {
             result = {
-              error: (error.response != null && error.response.data != null &&
-                      error.response.data.error != null)
-                     ? error.response.data.error
-                     : {code: (error.response.status) ? error.response.status : 500,
-                        message: error.message}
+              error: (error.response != null)
+                       ? ((error.response.data != null &&
+                          error.response.data.error != null)
+                          ? error.response.data.error
+                          : {code: (error.response.status)
+                                    ? error.response.status : 500,
+                             message: error.message})
+                      : {code: 500, message: error.message}
             }
           })
       }
