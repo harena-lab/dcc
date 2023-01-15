@@ -16,7 +16,8 @@ class AuthorCellManager {
     PrimitiveDCC.rootPath = '../../'
   }
 
-  start () {
+  // optional parameters - without parameters it gets from the URL
+  start (source, mode, caseId) {
     this.switchEditor = this.switchEditor.bind(this)
     this.playSpace = this.playSpace.bind(this)
     this.stopSpace = this.stopSpace.bind(this)
@@ -45,28 +46,32 @@ class AuthorCellManager {
     this._scriptActive = true
     this._caseId = null
 
-    const parameters = window.location.search.substr(1)
-    if (parameters != null && parameters.length > 0) {
-      const sourceMatch = parameters.match(/source=([\w-\/]+)/i)
-      if (sourceMatch != null) {
-        this.source = sourceMatch[1]
+    const parameters = (new URL(document.location)).searchParams
+
+    if (source != null)
+      AuthorCellManager.instance.insertSource(...source)
+    else {
+      this.source = parameters.get('source')
+      if (this.source != null) {
         const caseScript = document.createElement('script')
         caseScript.src = ((this.source[0] == '/') ? '' : 'gallery/') +
                          this.source + '.js'
         document.head.appendChild(caseScript)
       }
-      const scriptMatch = parameters.match(/mode=([\w-]+)/i)
-      if (scriptMatch != null) {
-        if (scriptMatch[1].includes('no-script')) {
-          this._scriptActive = false
-          AuthorCellManager.stateVis['script-panel'][0] = 0
-        }
-        if (scriptMatch[1].includes('no-hide')) { AuthorCellManager.stateVis['types-panel'][1] = 1 }
-      }
-      const caseMatch = parameters.match(/case=([\w-]+)/i)
-      if (caseMatch != null)
-        this._caseId = caseMatch[1]
     }
+
+    const md = mode || parameters.get('mode')
+    if (md != null) {
+      if (md.includes('no-script')) {
+        this._scriptActive = false
+        AuthorCellManager.stateVis['script-panel'][0] = 0
+      }
+      if (md.includes('no-hide'))
+        AuthorCellManager.stateVis['types-panel'][1] = 1
+    }
+
+    this._caseId = caseId || parameters.get('case')
+
     if (this._scriptActive) {
       document.querySelector('#action-panels').innerHTML =
             AuthorCellManager.scriptPanel
