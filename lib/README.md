@@ -11,6 +11,7 @@
   github: https://github.com/google/blockly-samples/tree/master/plugins/field-slider
   version 4.0.4:
     * https://unpkg.com/@blockly/field-slider@4.0.4/dist/index.js
+      * adjust sourceMappingURL in the file
     * https://unpkg.com/@blockly/field-slider@4.0.4/dist/index.js.map
   latest: https://unpkg.com/@blockly/field-slider
 
@@ -18,5 +19,6 @@
   * github: https://github.com/google/blockly-samples/tree/master/plugins/zoom-to-fit
   * version 3.0.4:
     * https://unpkg.com/@blockly/zoom-to-fit@3.0.4/dist/index.js
+      * adjust sourceMappingURL in the file
     * https://unpkg.com/@blockly/zoom-to-fit@3.0.4/dist/index.js.map
   * latest: https://unpkg.com/@blockly/zoom-to-fit
