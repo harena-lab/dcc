@@ -112,8 +112,8 @@ class AuthorCellManager {
        zoomToFit.init();
     }
 
-    document.querySelector('#source-name').innerHTML = name
     document.querySelector('#render-panel').innerHTML = source
+    document.querySelector('#source-name').innerHTML = name
     document.querySelector('#types-panel').innerHTML = buttonTypes
 
     this._updateVisibility()
