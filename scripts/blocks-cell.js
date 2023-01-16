@@ -133,6 +133,104 @@ class ScriptBlocksCell {
       }
     }
 
+    Blockly.Blocks.entity = {
+      init: function () {
+        this.jsonInit({
+          message0: '%1 %2',
+          args0: [
+            {
+              type: 'field_dropdown',
+              name: 'entity',
+              options: ScriptBlocksCell.s._allSelectTypes
+            },
+            {
+              type: 'input_value',
+              name: 'action1',
+              check: 'Entity_action'
+            }
+          ],
+          message1: ' %1',
+          args1: [
+            {
+              type: 'input_value',
+              name: 'action2',
+              check: 'Entity_action'
+            }
+          ],
+          message2: ' %1',
+          args2: [
+            {
+              type: 'input_value',
+              name: 'action3',
+              check: 'Entity_action'
+            }
+          ],
+          colour: 160,
+          tooltip: 'Entidade'
+        })
+      }
+    }
+
+    Blockly.Blocks.entity_movement = {
+      init: function () {
+        this.jsonInit({
+          message0: 'movimento %1',
+          args0: [
+            {
+              type: 'field_slider',
+              name: 'movement',
+              value: 10,
+              min: 0,
+              max: 10
+            }
+          ],
+          colour: 200,
+          tooltip: 'Quantidade de movimento.',
+          output: 'Entity_action'
+        })
+      }
+    }
+
+    Blockly.Blocks.entity_growth = {
+      init: function () {
+        this.jsonInit({
+          message0: 'crescimento %1',
+          args0: [
+            {
+              type: 'field_slider',
+              name: 'growth',
+              value: 10,
+              min: 0,
+              max: 10
+            }
+          ],
+          colour: 300,
+          tooltip: 'Taxa de crescimento.',
+          output: 'Entity_action'
+        })
+      }
+    }
+
+    Blockly.Blocks.entity_mortality = {
+      init: function () {
+        this.jsonInit({
+          message0: 'mortalidade %1',
+          args0: [
+            {
+              type: 'field_slider',
+              name: 'mortality',
+              value: 1,
+              min: 1,
+              max: 10
+            }
+          ],
+          colour: 400,
+          tooltip: 'Taxa de mortalidade.',
+          output: 'Entity_action'
+        })
+      }
+    }
+
     Blockly.Blocks.transform_horizontal = {
       init: function () {
         this.jsonInit({
@@ -650,10 +748,43 @@ class ScriptBlocksCell {
                 ((block.getFieldValue('down') == 'TRUE') ? '*' : '_') +
                 ((block.getFieldValue('downRight') == 'TRUE') ? '*' : '_') + '\n' +
                 '</rule-dcc-cell-pair>'
-      console.log('=== neighbor rule')
-      console.log(rule)
       return rule
     }
+
+    Blockly.JavaScript.entity = function (block) {
+      return (Blockly.JavaScript.statementToCode(block, 'action1') + '\n' +
+              Blockly.JavaScript.statementToCode(block, 'action2') + '\n' +
+              Blockly.JavaScript.statementToCode(block, 'action3'))
+        .replace(/\$/g, ScriptBlocksCell.s._types[block.getFieldValue('entity')])
+    }
+
+    Blockly.JavaScript.entity_movement = function (block) {
+      return `<rule-dcc-cell-pair probability="{prob}" transition="$_>_$">
+ ***
+ *_*
+ ***
+</rule-dcc-cell-pair>`
+             .replace('{prob}', block.getFieldValue('movement')*10)
+    }
+
+    Blockly.JavaScript.entity_growth = function (block) {
+      return `<rule-dcc-cell-pair probability="{prob}" transition="$_>$$">
+ ***
+ *_*
+ ***
+</rule-dcc-cell-pair>`
+             .replace('{prob}', block.getFieldValue('growth')*10)
+    }
+
+    Blockly.JavaScript.entity_mortality = function (block) {
+      return `<rule-dcc-cell-pair probability="{prob}" transition="$$>__">
+ ___
+ _*_
+ ___
+</rule-dcc-cell-pair>`
+            .replace('{prob}', block.getFieldValue('mortality')*10)
+    }
+
     Blockly.JavaScript.transform_horizontal = function (block) {
       const direction = block.getFieldValue('direction')
       let origin = [block.getFieldValue('or1'), block.getFieldValue('or2')]
@@ -674,8 +805,6 @@ class ScriptBlocksCell {
                 ((direction == 'left') ? '*__\n' : '__*\n') +
                 '___\n' +
                 '</rule-dcc-cell-pair>'
-      console.log('=== neighbor rule')
-      console.log(rule)
       return rule
     }
     Blockly.JavaScript.transform_vertical = function (block) {
@@ -698,8 +827,6 @@ class ScriptBlocksCell {
                 '___\n' +
                 ((direction == 'down') ? '_*_\n' : '___\n') +
                 '</rule-dcc-cell-pair>'
-      console.log('=== neighbor rule')
-      console.log(rule)
       return rule
     }
     Blockly.JavaScript.transform = function (block) {
@@ -720,8 +847,6 @@ class ScriptBlocksCell {
                 ((block.getFieldValue('down') == 'TRUE') ? '*' : '_') +
                 ((block.getFieldValue('downRight') == 'TRUE') ? '*' : '_') + '\n' +
                 '</rule-dcc-cell-pair>'
-      console.log('=== neighbor rule')
-      console.log(rule)
       return rule
     }
 
@@ -733,30 +858,20 @@ class ScriptBlocksCell {
                   .replace(/_t/g, ScriptBlocksCell.s._types[block.getFieldValue('target')]) +
                 '>\n' +
                 '</rule-dcc-cell-expression>'
-      /*
-         console.log("=== rule");
-         console.log(result);
-         */
       return result
     }
 
     Blockly.JavaScript.boid = function (block) {
-      // console.log("=== generating boid");
       const result = '<rule-dcc-cell-agent ' +
                 Blockly.JavaScript.statementToCode(block, 'action')
                   .replace(/_o/g, ScriptBlocksCell.s._types[block.getFieldValue('origin')])
                   .replace(/_t/g, ScriptBlocksCell.s._types[block.getFieldValue('target')]) +
                 '>\n' +
                 '</rule-dcc-cell-agent>'
-      /*
-         console.log("=== rule");
-         console.log(result);
-         */
       return result
     }
 
     Blockly.JavaScript.condition = function (block) {
-      // console.log('=== generating condition')
       let expX = 'x=x0'
       let expY = 'y=y0'
       const angle = block.getFieldValue('angle')
@@ -775,8 +890,6 @@ class ScriptBlocksCell {
                   .replace(/_t/g, ScriptBlocksCell.s._types[block.getFieldValue('target')]) +
                 '>\n' +
                 '</rule-dcc-cell-expression>'
-      // console.log('=== rule')
-      // console.log(result)
       return result
     }
 

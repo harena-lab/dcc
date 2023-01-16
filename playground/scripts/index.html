@@ -167,19 +167,31 @@
     </div>
 
     <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
-      <block type="neighbor"></block>
-      <block type="transform_horizontal"></block>
-      <block type="transform_vertical"></block>
-      <block type="transform"></block>
-      <block type="expression"></block>
-      <block type="boid"></block>
-      <block type="condition"></block>
-      <block type="velocity"></block>
-      <block type="acceleration"></block>
-      <block type="action_agent"></block>
-      <block type="action_probability"></block>
-      <block type="action_step"></block>
-      <block type="disapear"></block>
+      <category name="Entity Based" colour="210">
+        <block type="entity"></block>
+        <block type="entity_movement"></block>
+        <block type="entity_growth"></block>
+        <block type="entity_mortality"></block>
+      </category>
+      <category name="Neighbor Based" colour="310">
+        <block type="neighbor"></block>
+        <block type="transform_horizontal"></block>
+        <block type="transform_vertical"></block>
+        <block type="transform"></block>
+      </category>
+      <category name="Agent Based" colour="410">
+        <block type="expression"></block>
+        <block type="condition"></block>
+        <block type="velocity"></block>
+        <block type="acceleration"></block>
+        <block type="action_agent"></block>
+        <block type="action_probability"></block>
+        <block type="action_step"></block>
+        <block type="disapear"></block>
+      </category>
+      <category name="Boids" colour="510">
+        <block type="boid"></block>
+      </category>
     </xml>
 
   </main>
