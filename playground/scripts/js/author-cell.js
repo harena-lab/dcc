@@ -17,7 +17,7 @@ class AuthorCellManager {
   }
 
   // optional parameters - without parameters it gets from the URL
-  start (setup, mode, caseId, libPath) {
+  start (setup, mode, caseId, dccPath) {
     this.switchEditor = this.switchEditor.bind(this)
     this.playSpace = this.playSpace.bind(this)
     this.stopSpace = this.stopSpace.bind(this)
@@ -43,7 +43,7 @@ class AuthorCellManager {
 
     MessageBus.i.subscribe('input/changed/#', this.updateInputTrack)
 
-    this._libPath = libPath || AuthorCellManager.defaultLibPath
+    this._dccPath = dccPath || AuthorCellManager.defaultDCCPath
 
     this._scriptActive = true
     this._caseId = null
@@ -110,7 +110,7 @@ class AuthorCellManager {
     document.querySelector('#source-name').innerHTML = name
     document.querySelector('#types-panel').innerHTML = buttonTypes
     if (this._scriptActive) {
-      ScriptBlocksCell.create(types)
+      ScriptBlocksCell.create(types, this._dccPath + 'scripts/icons/')
 
       document.querySelector('#xml-toolbox').innerHTML =
              '<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">' +
@@ -129,7 +129,7 @@ class AuthorCellManager {
              minScale: 0.3,
              scaleSpeed: 1.2,
              pinch: true},
-          media: this._libPath + 'lib/blockly-9.2.0/media/',
+          media: this._dccPath + 'lib/blockly-9.2.0/media/',
           toolbox: document.getElementById('toolbox')
         })
 
@@ -157,20 +157,25 @@ class AuthorCellManager {
     this._updateVisibility()
 
     if (this._editMode) {
-	      if (this._playTriggered) {
-	         this._playTriggered = false
-	         const decision = await DCCNoticeInput.displayNotice(
-	            'Você quer retornar ao cenário original ou editar esse novo cenário que você está vendo?',
-	            'message', 'Voltar ao Original', 'Este Cenário')
-	         if (decision == 'Voltar ao Original') { MessageBus.i.publish('state/reset', null, true) }
-	      }
+      if (this._playTriggered) {
+         this._playTriggered = false
+         const decision = await DCCNoticeInput.displayNotice(
+            'Você quer retornar ao cenário original ou editar esse novo cenário que você está vendo?',
+            'message', 'Voltar ao Original', 'Este Cenário')
+         if (decision == 'Voltar ao Original') { MessageBus.i.publish('state/reset', null, true) }
+      }
       MessageBus.i.publish('space/edit', null, true)
 	  } else {
       MessageBus.i.publish('state/save', null, true)
+      const space =
+        await MessageBus.i.request('dcc-space-cellular/request/state')
+      MessageBus.i.publish('input/changed/space_state',
+                           {value: space.message}, true)
       if (this._scriptActive) {
         await MessageBus.i.request('dcc/rules/clear')
-        document.querySelector('#rules-panel').innerHTML =
-              Blockly.JavaScript.workspaceToCode(this._playground)
+        const code = Blockly.JavaScript.workspaceToCode(this._playground)
+        document.querySelector('#rules-panel').innerHTML = code
+        MessageBus.i.publish('input/changed/block_code', {value: code}, true)
       }
       MessageBus.i.publish('space/view', null, true)
 	  }
@@ -280,7 +285,7 @@ class AuthorCellManager {
 (function () {
 AuthorCellManager.instance = new AuthorCellManager()
 
-AuthorCellManager.defaultLibPath = '../../'
+AuthorCellManager.defaultDCCPath = '../../'
 
 AuthorCellManager.stateVis = {
     'play-button': [0, 1],
