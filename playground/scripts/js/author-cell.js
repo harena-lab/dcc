@@ -60,9 +60,30 @@ class AuthorCellManager {
         AuthorCellManager.stateVis['types-panel'][1] = 1
     }
 
-    if (setup != null)
-      this._insertHTML(setup.name, setup.source, setup.buttonTypes)
-    else {
+    if (setup != null) {
+      const stypes = []
+      let sbuttons = ''
+      if (setup.types) {
+        for (const s in setup.types) {
+          const st = setup.types[s]
+          stypes.push([s, st.symbol,
+            {src: st.image, width: st.width, height: st.height, alt: st.title}])
+          sbuttons += AuthorCellManager.singleButtonTemplate
+            .replace('{title}', st.title)
+            .replace('{type}', s)
+            .replace('{image}', st.image)
+        }
+      }
+      let sblocks = ''
+      if (setup.blocks)
+        for (const b in setup.blocks)
+          sblocks += AuthorCellManager.blockTemplate.replace('{type}', b)
+      document.querySelector('#player-panel').innerHTML = setup.source
+      this._insertHTML(setup.name, stypes, sblocks, setup.source,
+        AuthorCellManager.buttonsTemplate.replace('{buttons}', sbuttons))
+    } else {
+      document.querySelector('#action-panels').innerHTML = (this._scriptActive)
+        ? AuthorCellManager.scriptPanel : AuthorCellManager.noScriptPanel
       this.source = parameters.get('source')
       if (this.source != null) {
         const caseScript = document.createElement('script')
@@ -73,32 +94,21 @@ class AuthorCellManager {
     }
 
     if (this._scriptActive) {
-      document.querySelector('#action-panels').innerHTML =
-            AuthorCellManager.scriptPanel
       document.querySelector('#button-retract-script').hide()
       document.querySelector('#button-retract-cells').hide()
-    } else {
-      document.querySelector('#action-panels').innerHTML =
-            AuthorCellManager.noScriptPanel
     }
-
-    if (setup != null) this._insertHTML(setup.types, setup.blocks)
 
     this._caseId = caseId || parameters.get('case')
   }
 
   insertSource (name, types, blocks, source, buttonTypes) {
-    this._insertHTML(name, source, buttonTypes)
-    this._insertBlockly(types, blocks)
+    document.querySelector('#render-panel').innerHTML = source
+    this._insertHTML(name, types, blocks, source, buttonTypes)
   }
 
-  _insertHTML (name, source, buttonTypes) {
-    document.querySelector('#render-panel').innerHTML = source
+  _insertHTML (name, types, blocks, source, buttonTypes) {
     document.querySelector('#source-name').innerHTML = name
     document.querySelector('#types-panel').innerHTML = buttonTypes
-  }
-
-  _insertBlockly (types, blocks) {
     if (this._scriptActive) {
       ScriptBlocksCell.create(types)
 
@@ -268,11 +278,11 @@ class AuthorCellManager {
 }
 
 (function () {
-  AuthorCellManager.instance = new AuthorCellManager()
+AuthorCellManager.instance = new AuthorCellManager()
 
-  AuthorCellManager.defaultLibPath = '../../'
+AuthorCellManager.defaultLibPath = '../../'
 
-  AuthorCellManager.stateVis = {
+AuthorCellManager.stateVis = {
     'play-button': [0, 1],
     'stop-button': [0, 0],
     'restart-button': [0, 1],
@@ -283,7 +293,7 @@ class AuthorCellManager {
     'execute-button': [1, 0]
   }
 
-  AuthorCellManager.scriptPanel =
+AuthorCellManager.scriptPanel =
 `<div id="composition-block" class="d-flex col-6 flex-column align-items-stretch">
    <div>
       <div id="render-panel"></div>
@@ -305,7 +315,7 @@ class AuthorCellManager {
    </div>
 </div>`
 
-  AuthorCellManager.noScriptPanel =
+AuthorCellManager.noScriptPanel =
 `<div class="d-flex col-6 flex-column align-items-stretch">
    <div id="render-panel"></div>
 </div>
@@ -313,5 +323,20 @@ class AuthorCellManager {
    <div id="types-panel" class="h-100 w-100"></div>
    <div id="script-panel"></div>
    <div id="rules-panel"></div>
+</div>`
+
+AuthorCellManager.blockTemplate = '<block type="{type}"></block>\n'
+
+AuthorCellManager.buttonsTemplate =
+`Selecione um dos ícones abaixo para editar o ambiente:
+<div style="flex:48px; max-height:48px; display:flex; flex-direction:row; border:2px">
+{buttons}
+</div>`
+
+AuthorCellManager.singleButtonTemplate =
+`<div style="flex:10%; max-width:48px; max-height:48px; margin-right:10px">
+  <dcc-button label="{title}" topic="type/{type}"
+               image="{image}">
+  </dcc-button>
 </div>`
 })()
