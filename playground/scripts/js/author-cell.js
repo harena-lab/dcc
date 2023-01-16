@@ -74,12 +74,23 @@ class AuthorCellManager {
             .replace('{image}', st.image)
         }
       }
-      let sblocks = ''
-      if (setup.blocks)
-        for (const b in setup.blocks)
-          sblocks += AuthorCellManager.blockTemplate.replace('{type}', b)
+      let scats = ''
+      if (setup.blocks) {
+        let color = 210
+        for (const c in setup.blocks) {
+          let sblocks = ''
+          for (const b in setup.blocks[c]) {
+            sblocks += AuthorCellManager.blockTemplate.replace('{type}', b)
+          }
+          scats += AuthorCellManager.blockCategoryTemplate
+                     .replace('{name}', c)
+                     .replace('{color}', color)
+                     .replace('{blocks}', sblocks)
+          color += 100
+        }
+      }
       document.querySelector('#player-panel').innerHTML = setup.source
-      this._insertHTML(setup.name, stypes, sblocks, setup.source,
+      this._insertHTML(setup.name, stypes, scats, setup.source,
         AuthorCellManager.buttonsTemplate.replace('{buttons}', sbuttons))
     } else {
       document.querySelector('#action-panels').innerHTML = (this._scriptActive)
@@ -329,6 +340,11 @@ AuthorCellManager.noScriptPanel =
    <div id="script-panel"></div>
    <div id="rules-panel"></div>
 </div>`
+
+AuthorCellManager.blockCategoryTemplate =
+`<category name="{name}" colour="{color}">
+{blocks}
+</category>`
 
 AuthorCellManager.blockTemplate = '<block type="{type}"></block>\n'
 
