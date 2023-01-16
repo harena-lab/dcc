@@ -231,6 +231,34 @@ class ScriptBlocksCell {
       }
     }
 
+    Blockly.Blocks.entity_eat = {
+      init: function () {
+        this.jsonInit({
+          message0: 'come %1',
+          args0: [
+            {
+              type: 'field_dropdown',
+              name: 'eat',
+              options: ScriptBlocksCell.s._allSelectTypes
+            },
+          ],
+          message1: 'crescimento %1',
+          args1: [
+            {
+              type: 'field_slider',
+              name: 'growth',
+              value: 10,
+              min: 0,
+              max: 10
+            }
+          ],
+          colour: 500,
+          tooltip: 'Come outro ser e cresce.',
+          output: 'Entity_action'
+        })
+      }
+    }
+
     Blockly.Blocks.transform_horizontal = {
       init: function () {
         this.jsonInit({
@@ -783,6 +811,16 @@ class ScriptBlocksCell {
  ___
 </rule-dcc-cell-pair>`
             .replace('{prob}', block.getFieldValue('mortality')*10)
+    }
+
+    Blockly.JavaScript.entity_eat = function (block) {
+      return `<rule-dcc-cell-pair probability="{prob}" transition="$!>$$">
+      ***
+      *_*
+      ***
+</rule-dcc-cell-pair>`
+            .replace('!', ScriptBlocksCell.s._types[block.getFieldValue('eat')])
+            .replace('{prob}', block.getFieldValue('growth')*10)
     }
 
     Blockly.JavaScript.transform_horizontal = function (block) {
