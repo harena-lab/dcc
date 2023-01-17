@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <title>DCCs Playground</title>
+
+   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" name="viewport">
+
+   <script src="harena/config.js"></script>
+
+   <link rel="stylesheet" href="lib/fontawesome-5-10-1/css/all.min.css">
+   <link rel="stylesheet" href="lib/bootstrap-4.4.1/css/bootstrap.min.css">
+
+   <link rel="stylesheet" href="../../../css/dccs.css">
+   <link rel="stylesheet" href="harena/common-player.css">
+   <link rel="stylesheet" href="harena/common-author.css">
+
+   <script src="lib/jquery-3-4-1/jquery-3.4.1.slim.min.js"></script>
+   <script src="lib/popper-1-15-0/popper.min.js"></script>
+   <script src="lib/bootstrap-4.4.1/js/bootstrap.min.js"></script>
+   <script src="lib/axios-0.21.0/axios.min.js"></script>
+
+   <script src="../../../infra/bus.js"></script>
+
+   <script src="../../../base/primitive-dcc.js"></script>
+   <script src="../../../base/scope-dcc.js"></script>
+   <script src="../../../base/dcc.js"></script>
+   <script src="../../../base/subscribe-dcc.js"></script>
+   <script src="../../../base/connect-dcc.js"></script>
+   <script src="../../../base/trigger-dcc.js"></script>
+   <script src="../../../base/property-dcc.js"></script>
+   <script src="../../../base/dcc-base.js"></script>
+
+   <script src="../../../components/control/dcc-timer.js"></script>
+   <script src="../../../base/dcc-visual.js"></script>
+
+   <script src="harena/dcc-common-server-proxy.js"></script>
+   <script src="harena/dcc-rest-proxy.js"></script>
+
+   <script src="../../../components/visual/dcc-monitor.js"></script>
+   <script src="../../../components/visual/dcc-markdown.js"></script>
+   <script src="../../../components/visual/dcc-annotation.js"></script>
+   <script src="../../../components/visual/dcc-image.js"></script>
+   <script src="../../../components/visual/dcc-media.js"></script>
+   <script src="../../../components/visual/dcc-expression.js"></script>
+   <script src="../../../base/dcc-block.js"></script>
+   <script src="../../../components/visual/dcc-state.js"></script>
+   <script src="../../../components/visual/dcc-group.js"></script>
+   <script src="../../../components/visual/dcc-button.js"></script>
+   <script src="../../../components/visual/dcc-character.js"></script>
+   <script src="../../../components/visual/dcc-lively-dialog.js"></script>
+   <script src="../../../components/visual/dcc-notice-input.js"></script>
+   <script src="../../../components/visual/dcc-state-select.js"></script>
+   <script src="../../../components/visual/dcc-image-marker.js"></script>
+   <script src="../../../base/dcc-styler.js"></script>
+   <script src="../../../components/visual/dcc-entity.js"></script>
+   <script src="../../../components/visual/dcc-input.js"></script>
+   <script src="../../../components/visual/dcc-input-typed.js"></script>
+   <script src="../../../components/visual/dcc-input-choice.js"></script>
+   <script src="../../../components/visual/dcc-input-table.js"></script>
+   <script src="../../../components/visual/dcc-input-summary.js"></script>
+   <script src="../../../components/visual/dcc-slider.js"></script>
+   <script src="../../../components/visual/dcc-progress.js"></script>
+   <script src="../../../components/visual/dcc-chart.js"></script>
+   <script src="../../../components/control/dcc-compute.js"></script>
+   <script src="../../../components/visual/dcc-report.js"></script>
+   <script src="../../../components/web/dcc-web.js"></script>
+   <script src="../../../components/visual/dcc-graph.js"></script>
+
+   <script src="../../../components/data/dcc-table.js"></script>
+   <script src="../../../components/data/dcc-table-csv.js"></script>
+   <script src="../../../components/data/dcc-projection.js"></script>
+   <script src="../../../components/data/dcc-model.js"></script>
+   <script src="../../../components/data/dcc-submit.js"></script>
+   <script src="../../../components/data/dcc-record.js"></script>
+   <script src="../../../components/data/dcc-form.js"></script>
+
+   <script src="../../../components/web/dcc-rss.js"></script>
+   <script src="../../../components/web/dcc-aggregator.js"></script>
+   <script src="../../../components/web/dcc-dhtml.js"></script>
+   <script src="../../../components/web/dcc-rest.js"></script>
+
+   <script src="../../../components/web/dcc-include.js"></script>
+   <script src="../../../components/web/dcc-play.js"></script>
+
+   <script src="../../../components/cell/dcc-space-cellular.js"></script>
+   <script src="../../../components/cell/dcc-cell.js"></script>
+   <script src="../../../components/cell/dcc-cell-color.js"></script>
+   <script src="../../../components/cell/dcc-cell-image.js"></script>
+   <script src="../../../components/cell/rule-dcc-cell.js"></script>
+   <script src="../../../components/cell/rule-dcc-cell-transition.js"></script>
+   <script src="../../../components/cell/rule-dcc-cell-neighbor.js"></script>
+   <script src="../../../components/cell/rule-dcc-cell-expression.js"></script>
+
+   <script src="../../../components/ml/underscore.js"></script>
+   <script src="../../../components/ml/data_util.js"></script>
+   <script src="../../../components/ml/learningjs.js"></script>
+   <script src="../../../components/ml/dcc-decision-tree.js"></script>
+
+   <script src="js/model-components.js"></script>
+   <script src="js/rest-components.js"></script>
+   <script src="js/submit-components.js"></script>
+   <script src="js/form-components.js"></script>
+
+   <script src="harena/state.js"></script>
+   <script src="harena/htracker.js"></script>
+
+</head>
+
+<body onload="start()">
+   <script>
+      PrimitiveDCC.rootPath = "../../../"
+      new PlayState()
+      new Tracker()
+      DCCCommonServer.instance.local = true
+      DCCVisual.currentThemeFamily = 'plain'
+   </script>
+
+  <main role="main">
+    <dcc-table-csv schema></dcc-table-csv>
+    <dcc-chart width="600px" subscribe="table/updated:update"></dcc-chart>
+  </main>
+
+   </body>
+</html>
