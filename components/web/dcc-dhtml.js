@@ -198,7 +198,7 @@ class DCCDHTML extends DCCBase {
   }
 
   recordUpdate (topic, message) {
-    this._record = {... this.messageValue(message)}
+    this._record = {... PrimitiveDCC.messageValue(message)}
     if (this._page != null)
       this._record.page_url = this._page
     this._updateRender()
@@ -206,7 +206,7 @@ class DCCDHTML extends DCCBase {
 
   fieldUpdate (topic, message) {
     const id = MessageBus.extractLevelsSegment(topic, 3).replace(/\//g, '.')
-    const value = this.messageValue(message)
+    const value = PrimitiveDCC.messageValue(message)
     if (id == '*') {
       this._record = value
       if (this._page != null)

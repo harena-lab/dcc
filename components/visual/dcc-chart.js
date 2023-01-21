@@ -137,10 +137,10 @@ class DCCChart extends DCCVisual {
       topic = 'action/' + topic
     switch (topic.toLowerCase()) {
       case 'action/include':
-        this.includeChart(this.messageValue(message))
+        this.includeChart(PrimitiveDCC.messageValue(message))
         break
       case 'action/update':
-        const value = this.messageValue(message)
+        const value = PrimitiveDCC.messageValue(message)
         if (value != null && value.table)
           this.updateChart(value.table)
         break

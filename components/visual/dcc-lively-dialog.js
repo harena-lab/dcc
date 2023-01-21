@@ -164,7 +164,7 @@ class DCCLivelyTalk extends DCCVisual {
       topic = 'action/' + topic
     switch (topic.toLowerCase()) {
       case 'action/speech':
-        this._updateSpeech(this.messageValue(message))
+        this._updateSpeech(PrimitiveDCC.messageValue(message))
         break
       case 'action/clear':
         this._updateSpeech('')

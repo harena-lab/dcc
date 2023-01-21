@@ -26,7 +26,7 @@ class PrimitiveDCC extends HTMLElement {
   }
 
   static messageValue (message) {
-     return ((message.body != null)
+    return ((message.body != null)
       ? ((message.body.value != null) ? message.body.value : message.body)
       : ((message.value != null) ? message.value : message))
   }

@@ -219,7 +219,7 @@ class DCCTableCSV extends DCCVisual {
   async notify (topic, message) {
     const tp = topic.toLowerCase()
     if (tp.startsWith('table/retrieve/'))
-      this.retrieve(tp.substring(15), this.messageValue(message))
+      this.retrieve(tp.substring(15), PrimitiveDCC.messageValue(message))
   }
 }
 
