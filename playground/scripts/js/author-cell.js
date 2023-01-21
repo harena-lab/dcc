@@ -291,8 +291,8 @@ class AuthorCellManager {
       else
         this._analysis[v] = [value[v]]
     }
-    console.log('=== update analysis')
-    console.log(this._analysis)
+    MessageBus.i.publish('input/changed/space_updates',
+                         {value: this._analysis}, false)
   }
 
   async saveSpace () {
