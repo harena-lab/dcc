@@ -140,7 +140,7 @@ class DCCRest extends DCCBase {
   }
 
   _extractParameters(message) {
-    return (message == null) ? {} : this._messageValue(message)
+    return (message == null) ? {} : this.messageValue(message)
   }
 
 }

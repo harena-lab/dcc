@@ -48,7 +48,7 @@ class DCCTable extends DCCVisual {
         break
       default:
         if (tp.startsWith('table/retrieve/'))
-          this.retrieve(tp.substring(15), this._messageValue(message))
+          this.retrieve(tp.substring(15), this.messageValue(message))
         break
     }
   }

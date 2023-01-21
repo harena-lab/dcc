@@ -11,6 +11,7 @@ class AuthorCellManager {
    	this._playground = null
    	this._editMode = true
    	this._pĺaySpace = false
+    this._analysis = {}
 
    	// MessageBus.page = new MessageBus(false)
     PrimitiveDCC.rootPath = '../../'
@@ -27,6 +28,7 @@ class AuthorCellManager {
     this.cellsExpand = this.cellsExpand.bind(this)
     this.cellsRetract = this.cellsRetract.bind(this)
     this.updateInputTrack = this.updateInputTrack.bind(this)
+    this.updateAnalysis = this.updateAnalysis.bind(this)
     this.saveSpace = this.saveSpace.bind(this)
 
     this._inputTrack = {}
@@ -42,6 +44,7 @@ class AuthorCellManager {
     MessageBus.i.subscribe('control/cells/retract', this.cellsRetract)
 
     MessageBus.i.subscribe('input/changed/#', this.updateInputTrack)
+    MessageBus.i.subscribe('dcc/analysis/data', this.updateAnalysis)
 
     this._dccPath = dccPath || AuthorCellManager.defaultDCCPath
 
@@ -278,6 +281,18 @@ class AuthorCellManager {
   updateInputTrack (topic, message) {
     const varid = MessageBus.extractLevel(topic, 3)
     this._inputTrack[varid] = message.value
+  }
+
+  updateAnalysis (topic, message) {
+    const value = PrimitiveDCC.messageValue(message)
+    for (const v in value) {
+      if (this._analysis[v] != null)
+        this._analysis[v].push(value[v])
+      else
+        this._analysis[v] = [value[v]]
+    }
+    console.log('=== update analysis')
+    console.log(this._analysis)
   }
 
   async saveSpace () {
