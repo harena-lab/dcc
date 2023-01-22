@@ -30,6 +30,7 @@ class AuthorCellManager {
     this.updateInputTrack = this.updateInputTrack.bind(this)
     this.updateAnalysis = this.updateAnalysis.bind(this)
     this.saveSpace = this.saveSpace.bind(this)
+    this.editorFinish = this.editorFinish.bind(this)
 
     this._inputTrack = {}
 
@@ -42,6 +43,7 @@ class AuthorCellManager {
     MessageBus.i.subscribe('control/script/retract', this.scriptRetract)
     MessageBus.i.subscribe('control/cells/expand', this.cellsExpand)
     MessageBus.i.subscribe('control/cells/retract', this.cellsRetract)
+    MessageBus.i.subscribe('control/editor/finish', this.editorFinish)
 
     MessageBus.i.subscribe('input/changed/#', this.updateInputTrack)
     MessageBus.i.subscribe('dcc/analysis/data', this.updateAnalysis)
@@ -299,6 +301,17 @@ class AuthorCellManager {
       else
         this._analysis[v] = [value[v]]
     }
+  }
+
+  async editorFinish () {
+    await MessageBus.i.publish('input/changed/space_updates',
+                            {value: this._analysis}, false)
+    this._analysis = {}
+    const space =
+        await MessageBus.i.request('dcc-space-cellular/request/state')
+    MessageBus.i.publish('input/changed/space_state',
+                         {value: space.message}, true)
+    MessageBus.i.publish('flow/navigate/>', null, true)
   }
 
   async saveSpace () {

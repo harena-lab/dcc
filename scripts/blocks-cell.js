@@ -199,9 +199,9 @@ class ScriptBlocksCell {
             {
               type: 'field_slider',
               name: 'growth',
-              value: 10,
-              min: 0,
-              max: 10
+              value: 4,
+              min: 1,
+              max: 8
             }
           ],
           colour: 300,
@@ -219,9 +219,9 @@ class ScriptBlocksCell {
             {
               type: 'field_slider',
               name: 'mortality',
-              value: 1,
+              value: 4,
               min: 1,
-              max: 10
+              max: 8
             }
           ],
           colour: 400,
@@ -247,9 +247,9 @@ class ScriptBlocksCell {
             {
               type: 'field_slider',
               name: 'growth',
-              value: 10,
-              min: 0,
-              max: 10
+              value: 4,
+              min: 1,
+              max: 8
             }
           ],
           colour: 500,
