@@ -117,7 +117,7 @@ class AuthorCellManager {
     }
 
     this._caseId = caseId || parameters.get('case')
-    this._askReset = (askReset != null || parameters.get('ask') != null)
+    this._askReset = (askReset != null) ? askReset : (parameters.get('ask') != null)
   }
 
   insertSource (name, types, blocks, source, buttonTypes) {
