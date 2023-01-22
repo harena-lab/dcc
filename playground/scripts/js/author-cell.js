@@ -173,6 +173,7 @@ class AuthorCellManager {
     this._updateVisibility()
 
     if (this._editMode) {
+      MessageBus.i.publish('control/finish/disable', null, true)
       if (this._playTriggered) {
          this._playTriggered = false
          const decision = await DCCNoticeInput.displayNotice(
@@ -198,6 +199,7 @@ class AuthorCellManager {
         MessageBus.i.publish('input/changed/block_code', {value: serial}, true)
       }
       MessageBus.i.publish('space/view', null, true)
+      MessageBus.i.publish('control/finish/enable', null, true)
 	  }
   }
 
