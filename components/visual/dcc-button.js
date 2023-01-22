@@ -10,11 +10,12 @@ class DCCButton extends DCCBlock {
   constructor () {
     super()
     this._computeTrigger = this._computeTrigger.bind(this)
-    this._active = true
   }
 
   connectedCallback () {
     super.connectedCallback()
+
+    this._active = !this.disabled
 
     if (this.hasAttribute('topic') &&
         MessageBus.extractLevel(this.topic, 2) == 'navigate') {
@@ -34,7 +35,7 @@ class DCCButton extends DCCBlock {
 
   static get observedAttributes () {
     return DCCBlock.observedAttributes.concat(
-      ['link', 'topic', 'message', 'variable'])
+      ['link', 'topic', 'message', 'variable', 'inline', 'disabled'])
   }
 
   get link () {
@@ -74,7 +75,32 @@ class DCCButton extends DCCBlock {
   }
 
   set inline (isInline) {
-    if (isInline) { this.setAttribute('inline', '') } else { this.removeAttribute('inline') }
+    if (isInline)
+      this.setAttribute('inline', '')
+    else
+      this.removeAttribute('inline')
+  }
+
+  get disabled () {
+    return this.hasAttribute('disabled')
+  }
+
+  set disabled (isDisabled) {
+    if (isDisabled) {
+      this._active = false
+      this.setAttribute('disabled', '')
+    } else {
+      this._active = true
+      this.removeAttribute('disabled')
+    }
+    this._lockUnlock()
+  }
+
+  notify (topic, message) {
+    switch (topic.toLowerCase()) {
+      case 'enable': this.disabled = false; break
+      case 'disable': this.disabled = true;
+    }
   }
 
   changeDisplay(topic, message) {
@@ -95,9 +121,10 @@ class DCCButton extends DCCBlock {
   async _renderInterface () {
     // === pre presentation setup
     let html
-    if (this.hasAttribute('location') && this.location != '#in') { html = this.label } else {
+    if (this.hasAttribute('location') && this.location != '#in')
+      html = this.label
+    else {
       const bsty = this._renderStyle() + ((this.inline) ? '-inline' : '')
-      // html = DCCButton.templateStyle;
       if (this.hasAttribute('image')) {
         html = DCCButton.templateElements.image
           .replace('[render]', bsty)
@@ -114,11 +141,11 @@ class DCCButton extends DCCBlock {
     await this._applyRender(html,
       (this._xstyle == 'out-image') ? 'title' : 'innerHTML', null, null,
       true)
-      // (this.xstyle && this.xstyle == 'in') ? true : false)
-
+ 
     // === post presentation setup
     // <TODO> provisory
-    if (this.hasAttribute('image')) { this._imageElement = this._presentation.querySelector('#pres-image-dcc') }
+    if (this.hasAttribute('image'))
+      this._imageElement = this._presentation.querySelector('#pres-image-dcc')
 
     let wrapperListener = false
     if (this.location && this.location[0] != '#') {
@@ -134,8 +161,10 @@ class DCCButton extends DCCBlock {
 
     if (this._presentation != null && !wrapperListener) {
       this._presentation.style.cursor = 'pointer'
-      if (!this.author) { this._presentation.addEventListener('click', this._computeTrigger) }
+      if (!this.author) this._presentation.addEventListener('click', this._computeTrigger)
     }
+
+    this._lockUnlock()
 
     this._presentationIsReady()
   }
@@ -148,6 +177,18 @@ class DCCButton extends DCCBlock {
 
   externalLocationType () {
     return 'action'
+  }
+
+  _lockUnlock () {
+    if (this._presentation != null) {
+      // const lock = this._presentation.querySelector('#lock')
+      if (this.disabled) {
+        this._oldStyle = this._presentation.style
+        this._presentation.style =
+          `background:black;color:white;${this._oldStyle || ''}`
+      } else if (this._oldStyle != null)
+        this._presentation.style = this._oldStyle
+    }
   }
 
   async _computeTrigger () {
