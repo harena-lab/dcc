@@ -185,7 +185,7 @@ class DCCButton extends DCCBlock {
       if (this.disabled) {
         this._oldStyle = this._presentation.style
         this._presentation.style =
-          `background:black;color:white;${this._oldStyle || ''}`
+          `background:black;color:black;${this._oldStyle || ''}`
       } else if (this._oldStyle != null)
         this._presentation.style = this._oldStyle
     }
