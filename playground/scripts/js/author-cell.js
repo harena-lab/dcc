@@ -18,7 +18,7 @@ class AuthorCellManager {
   }
 
   // optional parameters - without parameters it gets from the URL
-  start (setup, mode, caseId, dccPath) {
+  start (setup, mode, caseId, askReset, dccPath) {
     this.switchEditor = this.switchEditor.bind(this)
     this.playSpace = this.playSpace.bind(this)
     this.stopSpace = this.stopSpace.bind(this)
@@ -117,6 +117,7 @@ class AuthorCellManager {
     }
 
     this._caseId = caseId || parameters.get('case')
+    this._askReset = (askReset != null || parameters.get('ask') != null)
   }
 
   insertSource (name, types, blocks, source, buttonTypes) {
@@ -178,10 +179,13 @@ class AuthorCellManager {
       MessageBus.i.publish('control/finish/disable', null, true)
       if (this._playTriggered) {
          this._playTriggered = false
-         const decision = await DCCNoticeInput.displayNotice(
-            'Você quer retornar ao cenário original ou editar esse novo cenário que você está vendo?',
-            'message', 'Voltar ao Original', 'Este Cenário')
-         if (decision == 'Voltar ao Original') { MessageBus.i.publish('state/reset', null, true) }
+         if (this._askReset) {
+           const decision = await DCCNoticeInput.displayNotice(
+               'Você quer retornar ao cenário original ou editar esse novo cenário que você está vendo?',
+               'message', 'Voltar ao Original', 'Este Cenário')
+           if (decision == 'Voltar ao Original') MessageBus.i.publish('state/reset', null, true)
+         } else
+           MessageBus.i.publish('state/reset', null, true)
       }
       await MessageBus.i.publish('input/changed/space_updates',
                                  {value: this._analysis}, false)
