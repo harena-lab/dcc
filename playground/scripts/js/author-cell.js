@@ -51,6 +51,8 @@ class AuthorCellManager {
     this._scriptActive = true
     this._caseId = null
 
+    this._serializer = new Blockly.serialization.blocks.BlockSerializer()
+
     const parameters = (new URL(document.location)).searchParams
 
     const md = mode || parameters.get('mode')
@@ -178,6 +180,9 @@ class AuthorCellManager {
             'message', 'Voltar ao Original', 'Este Cenário')
          if (decision == 'Voltar ao Original') { MessageBus.i.publish('state/reset', null, true) }
       }
+      await MessageBus.i.publish('input/changed/space_updates',
+                                 {value: this._analysis}, false)
+      this._analysis = {}
       MessageBus.i.publish('space/edit', null, true)
 	  } else {
       MessageBus.i.publish('state/save', null, true)
@@ -189,7 +194,8 @@ class AuthorCellManager {
         await MessageBus.i.request('dcc/rules/clear')
         const code = Blockly.JavaScript.workspaceToCode(this._playground)
         document.querySelector('#rules-panel').innerHTML = code
-        MessageBus.i.publish('input/changed/block_code', {value: code}, true)
+        const serial = this._serializer.save(this._playground)
+        MessageBus.i.publish('input/changed/block_code', {value: serial}, true)
       }
       MessageBus.i.publish('space/view', null, true)
 	  }
@@ -291,18 +297,18 @@ class AuthorCellManager {
       else
         this._analysis[v] = [value[v]]
     }
-    MessageBus.i.publish('input/changed/space_updates',
-                         {value: this._analysis}, false)
   }
 
   async saveSpace () {
-    const space = await MessageBus.i.request('dcc-space-cellular/request/state')
+    const space = await MessageBus.i.request(
+      'dcc-space-cellular/request/state')
     if (this._caseId != null)
       MessageBus.i.publish('case/summary/' + Basic.service.generateUID(),
         {
           caseId: this._caseId,
           participantName: document.querySelector('#participant-name').value,
           state: space.message,
+          updates: this._analysis,
           inputs: this._inputTrack
         }, true)
   }
