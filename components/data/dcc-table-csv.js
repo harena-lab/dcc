@@ -191,11 +191,12 @@ class DCCTableCSV extends DCCVisual {
       this._tableView.innerHTML = htmlTable
     }
 
-    this._publish('table/updated',
-      {
-        table: this._table,
-        csv: csv
-      })
+    const message = {
+      table: this._table,
+      csv: csv
+    }
+    this._publish('table/updated', message)    
+    this.multiRequest('table/updated', message)
   }
 
   _hideDropZone () {

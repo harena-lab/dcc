@@ -117,8 +117,29 @@
    </script>
 
   <main role="main">
-    <dcc-table-csv schema></dcc-table-csv>
-    <dcc-chart width="600px" subscribe="table/updated:update"></dcc-chart>
+   <table>
+      <tr>
+         <td>
+            <dcc-table-csv schema connect="table/updated:chart1:update"></dcc-table-csv>
+            <dcc-chart id="chart1" style="width:500px;height:500px"></dcc-chart>
+         </td>
+         <td>
+            <dcc-table-csv schema connect="table/updated:chart2:update"></dcc-table-csv>
+            <dcc-chart id="chart2" style="width:500px;height:500px"></dcc-chart>
+         </td>
+      </tr>
+      <tr>
+         <td>
+            <dcc-table-csv schema connect="table/updated:chart3:update"></dcc-table-csv>
+            <dcc-chart id="chart3" style="width:500px;height:500px"></dcc-chart>
+         </td>
+         <td>
+            <dcc-table-csv schema connect="table/updated:chart4:update"></dcc-table-csv>
+            <dcc-chart id="chart4" style="width:500px;height:500px"></dcc-chart>
+         </td>
+      </tr>
+   </table>
+    
   </main>
 
    </body>

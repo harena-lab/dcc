@@ -51,6 +51,10 @@ class DCCChart extends DCCVisual {
     this._setPresentation(presentation)
     super.connectedCallback()
 
+    if (this.hasAttribute('id')) {
+      this._provides(this.id, 'update', this.notify)
+    }
+
     this._presentationIsReady()
   }
 
