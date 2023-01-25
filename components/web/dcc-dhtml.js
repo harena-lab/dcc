@@ -198,7 +198,7 @@ class DCCDHTML extends DCCBase {
   }
 
   recordUpdate (topic, message) {
-    this._record = {... PrimitiveDCC.messageValue(message)}
+    this._record = PrimitiveDCC.messageValue(message)
     if (this._page != null)
       this._record.page_url = this._page
     this._updateRender()
