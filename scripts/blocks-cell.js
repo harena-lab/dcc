@@ -50,6 +50,20 @@ class ScriptBlocksCell {
     this._codeGenerator()
   }
 
+  static _invertDirection (state) {
+    if (state.endsWith('l'))
+      return state.substring(0, state.length - 1) + 'r'
+    else if (state.endsWith('r'))
+      return state.substring(0, state.length - 1) + 'l'
+
+    if (state.endsWith('u'))
+      return state.substring(0, state.length - 1) + 'd'
+    else if (state.endsWith('d'))
+      return state.substring(0, state.length - 1) + 'u'
+
+    return state
+  }
+
   _buildBlocks () {
     Blockly.Blocks.neighbor = {
       init: function () {
@@ -309,6 +323,15 @@ class ScriptBlocksCell {
               max: 100
             }
           ],
+          message3: 'reflete %1',
+          args3: [
+            {
+              type: 'field_checkbox',
+              name: 'reflect',
+              check: 'Boolean',
+              "checked": true
+            }
+          ],
           colour: 160,
           tooltip: 'Transformação horizontal'
         })
@@ -361,6 +384,15 @@ class ScriptBlocksCell {
               value: 100,
               min: 0,
               max: 100
+            }
+          ],
+          message5: 'reflete %1',
+          args5: [
+            {
+              type: 'field_checkbox',
+              name: 'reflect',
+              check: 'Boolean',
+              "checked": true
             }
           ],
           colour: 160,
@@ -843,8 +875,24 @@ class ScriptBlocksCell {
                 ((direction == 'left') ? '*__\n' : '__*\n') +
                 '___\n' +
                 '</rule-dcc-cell-pair>'
-      return rule
+      let rulei = ''
+      if (block.getFieldValue('reflect') == 'TRUE') {
+        rulei = '\n<rule-dcc-cell-pair ' +
+                " probability='" + block.getFieldValue('probability') + "'" +
+                " transition='" +
+                  ScriptBlocksCell.s._types[ScriptBlocksCell._invertDirection(origin[0])] +
+                  ScriptBlocksCell.s._types[ScriptBlocksCell._invertDirection(origin[1])] + '>' +
+                  ScriptBlocksCell.s._types[ScriptBlocksCell._invertDirection(trans[0])] +
+                  ScriptBlocksCell.s._types[ScriptBlocksCell._invertDirection(trans[1])] + "'" +
+                '>\n' +
+                '___\n' +
+                ((direction == 'left') ? '__*\n' : '*__\n') +
+                '___\n' +
+                '</rule-dcc-cell-pair>'
+      }
+      return rule + rulei
     }
+
     Blockly.JavaScript.transform_vertical = function (block) {
       const direction = block.getFieldValue('direction')
       let origin = [block.getFieldValue('or1'), block.getFieldValue('or2')]
@@ -865,7 +913,22 @@ class ScriptBlocksCell {
                 '___\n' +
                 ((direction == 'down') ? '_*_\n' : '___\n') +
                 '</rule-dcc-cell-pair>'
-      return rule
+      let rulei = ''
+      if (block.getFieldValue('reflect') == 'TRUE') {
+        rulei = '\n<rule-dcc-cell-pair ' +
+                " probability='" + block.getFieldValue('probability') + "'" +
+                " transition='" +
+                  ScriptBlocksCell.s._types[ScriptBlocksCell._invertDirection(origin[0])] +
+                  ScriptBlocksCell.s._types[ScriptBlocksCell._invertDirection(origin[1])] + '>' +
+                  ScriptBlocksCell.s._types[ScriptBlocksCell._invertDirection(trans[0])] +
+                  ScriptBlocksCell.s._types[ScriptBlocksCell._invertDirection(trans[1])] + "'" +
+                '>\n' +
+                ((direction == 'down') ? '_*_\n' : '___\n') +
+                '___\n' +
+                ((direction == 'up') ? '_*_\n' : '___\n') +
+                '</rule-dcc-cell-pair>'
+      }
+      return rule + rulei
     }
     Blockly.JavaScript.transform = function (block) {
       const rule = '<rule-dcc-cell-pair ' +
