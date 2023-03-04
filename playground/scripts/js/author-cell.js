@@ -193,6 +193,13 @@ class AuthorCellManager {
       MessageBus.i.publish('space/edit', null, true)
 	  } else {
       MessageBus.i.publish('state/save', null, true)
+      const stg = document.querySelector('#stage-field')
+      if (stg != null) {
+        const stage = stg.value
+        if (stage != null)
+          MessageBus.i.publish('input/changed/space_stage',
+                               {value: stage}, true)
+      }
       const space =
         await MessageBus.i.request('dcc-space-cellular/request/state')
       MessageBus.i.publish('input/changed/space_state',
