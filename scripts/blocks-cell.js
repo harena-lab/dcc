@@ -973,8 +973,8 @@ class ScriptBlocksCell {
     }
 
     Blockly.JavaScript.condition = function (block) {
-      let expX = 'x=x0'
-      let expY = 'y=y0'
+      let expX = 'x:=x0'
+      let expY = 'y:=y0'
       const angle = block.getFieldValue('angle')
       const v0 = Blockly.JavaScript.statementToCode(block, 'initial_velocity').trim()
       if (v0.length > 0) {
