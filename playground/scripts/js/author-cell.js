@@ -120,6 +120,10 @@ class AuthorCellManager {
     this._askReset = (askReset != null) ? askReset : (parameters.get('ask') != null)
   }
 
+  get playground () {
+    return this._playground
+  }
+
   insertSource (name, types, blocks, source, buttonTypes) {
     document.querySelector('#render-panel').innerHTML = source
     this._insertHTML(name, types, blocks, source, buttonTypes)
