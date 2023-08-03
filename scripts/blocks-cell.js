@@ -501,6 +501,41 @@ class ScriptBlocksCell {
       }
     }
 
+    Blockly.Blocks.single = {
+      init: function () {
+        this.jsonInit({
+          message0: '%1 antes',
+          args0: [
+            {
+              type: 'field_dropdown',
+              name: 'or1',
+              options: ScriptBlocksCell.s._allSelectTypes
+            }
+          ],
+          message1: '%1 depois',
+          args1: [
+            {
+              type: 'field_dropdown',
+              name: 'trans1',
+              options: ScriptBlocksCell.s._allSelectTypes
+            }
+          ],
+          message2: 'chance %1',
+          args2: [
+            {
+              type: 'field_slider',
+              name: 'probability',
+              value: 100,
+              min: 0,
+              max: 100
+            }
+          ],
+          colour: 160,
+          tooltip: 'Transformação Simples'
+        })
+      }
+    }
+
     Blockly.Blocks.expression = {
       init: function () {
         this.jsonInit({
@@ -947,6 +982,22 @@ class ScriptBlocksCell {
                 ((block.getFieldValue('downLeft') == 'TRUE') ? '*' : '_') +
                 ((block.getFieldValue('down') == 'TRUE') ? '*' : '_') +
                 ((block.getFieldValue('downRight') == 'TRUE') ? '*' : '_') + '\n' +
+                '</rule-dcc-cell-pair>'
+      return rule
+    }
+
+    Blockly.JavaScript.single = function (block) {
+      const rule = '<rule-dcc-cell-pair ' +
+                " probability='" + block.getFieldValue('probability') + "'" +
+                " transition='" +
+                  ScriptBlocksCell.s._types[block.getFieldValue('or1')] +
+                  ScriptBlocksCell.s._types[block.getFieldValue('or1')] + '>' +
+                  ScriptBlocksCell.s._types[block.getFieldValue('trans1')] +
+                  ScriptBlocksCell.s._types[block.getFieldValue('trans1')] + "'" +
+                '>\n' +
+                '___\n' +
+                '_*_\n' +
+                '___\n' +
                 '</rule-dcc-cell-pair>'
       return rule
     }

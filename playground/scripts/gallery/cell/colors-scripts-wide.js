@@ -15,6 +15,7 @@
     ],
 `<category name="Ação" colour="210">
   <block type="transform"></block>
+  <block type="single"></block>
 </category>`,
 `<dcc-space-cellular-editor id="cellular-space" rows="56" cols="80"
   cell-width="8" cell-height="8" background-color="#dddddd" grid analysis policy="crescent">
