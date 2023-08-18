@@ -488,11 +488,12 @@ class ScriptBlocksCell {
           message5: 'chance %1',
           args5: [
             {
-              type: 'field_slider',
+              type: 'field_number',
               name: 'probability',
               value: 100,
               min: 0,
-              max: 100
+              max: 100,
+              precision: .01
             }
           ],
           colour: 160,

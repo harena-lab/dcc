@@ -78,7 +78,7 @@
    <script src="js/author-cell-dev.js"></script>
 </head>
 
-<body onload="AuthorCellManager.instance.start()">
+<body onload="AuthorCellManagerDev.i.start()">
   <main role="main">
     <div class="d-flex flex-column vh-100 hidden-overflow">
       <div class="align-items-stretch col-12">
@@ -94,6 +94,14 @@
                 <div id="load-button">
                   <dcc-button topic="control/editor/load" label="LER" xstyle="in">
                   </dcc-button>
+                </div>
+                <div id="export-button">
+                  <dcc-button topic="control/editor/export" label="EXPORTAR" xstyle="in">
+                  </dcc-button>
+                </div>
+                <div id="drop-zone"
+                     style="color: black; background-color: white; border: 5px solid black; padding: 5px">
+                  IMPORTAR
                 </div>
               </div>
               <div class="col-3">

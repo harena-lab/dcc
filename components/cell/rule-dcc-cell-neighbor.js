@@ -12,7 +12,9 @@ class RuleDCCCellNeighbor extends RuleDCCTransition {
     this._ruleNeighbors = this.buildNeighborList(this.neighbors)
 
     if (!this.hasAttribute('probability')) this.probability = '100'
-    this._decimalProbability = parseInt(this.probability) / 100
+    this._decimalProbability = (this.probability.includes('.'))
+      ? parseFloat(this.probability) / 100
+      : parseInt(this.probability) / 100
     this._step = (this.hasAttribute('step')) ? parseInt(this.step) : 1
 
     this._publish('dcc/rule-cell/register', this)
