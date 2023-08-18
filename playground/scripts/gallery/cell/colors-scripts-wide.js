@@ -35,7 +35,18 @@
 <dcc-timer cycles="100000" interval="1000" topic="state/next">
    <subscribe-dcc topic="timer/start" map="start"></subscribe-dcc>
    <subscribe-dcc topic="timer/stop" map="stop"></subscribe-dcc>
+   <subscribe-dcc topic="input/changed/timer_interval" map="interval"></subscribe-dcc>
 </dcc-timer>
+
+<div style="flex:48px; max-height:48px; display:flex; flex-direction:row">
+   <div style="flex:20%; max-width:96px; max-height:48px">
+      <img style="max-width:48px; max-height:48px; margin-left:24px; margin-right:24px"
+           src="images/icon/clock.svg">
+   </div>
+   <div style="flex:50%; max-height:48px; margin-right:10px">
+      <dcc-slider variable="timer_interval" min="1" max="1000" value="1000" index></dcc-slider>
+   </div>
+</div>
 
 <div style="flex:48px; max-height:48px; display:flex; flex-direction:row">
    <div style="flex:20%; max-width:96px; max-height:48px">
