@@ -404,8 +404,17 @@ class ScriptBlocksCell {
     Blockly.Blocks.transform = {
       init: function () {
         this.jsonInit({
-          message0: '%1 %2 antes',
+          message0: '%1',
           args0: [
+            {
+              type: 'field_input',
+              name: 'label',
+              text: "rótulo",
+              spellcheck: false
+            }
+          ],
+          message1: '%1 %2 antes',
+          args1: [
             {
               type: 'field_dropdown',
               name: 'or1',
@@ -417,8 +426,8 @@ class ScriptBlocksCell {
               options: ScriptBlocksCell.s._allSelectTypes
             }
           ],
-          message1: '%1 %2 depois',
-          args1: [
+          message2: '%1 %2 depois',
+          args2: [
             {
               type: 'field_dropdown',
               name: 'trans1',
@@ -430,8 +439,8 @@ class ScriptBlocksCell {
               options: ScriptBlocksCell.s._allSelectTypes
             }
           ],
-          message2: '%1 %2 %3',
-          args2: [
+          message3: '%1 %2 %3',
+          args3: [
             {
               type: 'field_checkbox',
               name: 'upLeft',
@@ -448,8 +457,8 @@ class ScriptBlocksCell {
               check: 'Boolean'
             }
           ],
-          message3: '%1 %2 %3 direção',
-          args3: [
+          message4: '%1 %2 %3 direção',
+          args4: [
             {
               type: 'field_checkbox',
               name: 'left',
@@ -467,8 +476,8 @@ class ScriptBlocksCell {
               check: 'Boolean'
             }
           ],
-          message4: '%1 %2 %3',
-          args4: [
+          message5: '%1 %2 %3',
+          args5: [
             {
               type: 'field_checkbox',
               name: 'downLeft',
@@ -485,8 +494,8 @@ class ScriptBlocksCell {
               check: 'Boolean'
             }
           ],
-          message5: 'chance %1',
-          args5: [
+          message6: 'chance %1',
+          args6: [
             {
               type: 'field_number',
               name: 'probability',
@@ -505,30 +514,40 @@ class ScriptBlocksCell {
     Blockly.Blocks.single = {
       init: function () {
         this.jsonInit({
-          message0: '%1 antes',
+          message0: '%1',
           args0: [
+            {
+              type: 'field_input',
+              name: 'label',
+              text: "rótulo",
+              spellcheck: false
+            }
+          ],
+          message1: '%1 antes',
+          args1: [
             {
               type: 'field_dropdown',
               name: 'or1',
               options: ScriptBlocksCell.s._allSelectTypes
             }
           ],
-          message1: '%1 depois',
-          args1: [
+          message2: '%1 depois',
+          args2: [
             {
               type: 'field_dropdown',
               name: 'trans1',
               options: ScriptBlocksCell.s._allSelectTypes
             }
           ],
-          message2: 'chance %1',
-          args2: [
+          message3: 'chance %1',
+          args3: [
             {
-              type: 'field_slider',
+              type: 'field_number',
               name: 'probability',
               value: 100,
               min: 0,
-              max: 100
+              max: 100,
+              precision: .01
             }
           ],
           colour: 160,
