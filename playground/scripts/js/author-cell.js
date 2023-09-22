@@ -96,9 +96,26 @@ class AuthorCellManager {
           color += 100
         }
       }
+      let ssliders = ''
+      if (setup.sliders) {
+        for (const s in setup.sliders) {
+          const sl = setup.sliders[s]
+          ssliders += AuthorCellManager.singleSliderTemplate
+            .replace('{variable}', s)
+            .replace('{initial}', sl.initial)
+            .replace('{pre-image}', sl.pre_image)
+            .replace('{pre-width}', sl.pre_width)
+            .replace('{pre-height}', sl.pre_height)
+            .replace('{pos-image}', sl.pos_image)
+            .replace('{pos-width}', sl.pos_width)
+            .replace('{pos-height}', sl.pos_height)
+        }
+      }
+
       document.querySelector('#player-panel').innerHTML = setup.source
       this._insertHTML(setup.name, stypes, scats, setup.source,
-        AuthorCellManager.buttonsTemplate.replace('{buttons}', sbuttons))
+        AuthorCellManager.buttonsTemplate.replace('{buttons}', sbuttons) +
+        AuthorCellManager.slidersTemplate.replace('{sliders}', ssliders))
     } else {
       document.querySelector('#action-panels').innerHTML = (this._scriptActive)
         ? AuthorCellManager.scriptPanel : AuthorCellManager.noScriptPanel
@@ -400,7 +417,7 @@ AuthorCellManager.blockCategoryTemplate =
 AuthorCellManager.blockTemplate = '<block type="{type}"></block>\n'
 
 AuthorCellManager.buttonsTemplate =
-`Selecione um dos ícones abaixo para editar o ambiente:
+`<p>Selecione um dos ícones abaixo para editar o ambiente:</p>
 <div style="flex:48px; max-height:48px; display:flex; flex-direction:row; border:2px">
 {buttons}
 </div>`
@@ -411,4 +428,21 @@ AuthorCellManager.singleButtonTemplate =
                image="{image}">
   </dcc-button>
 </div>`
+
+AuthorCellManager.slidersTemplate =
+`<hr style="height:4px;border-width:0;color:gray;background-color:gray">
+<p>Selecione abaixo a chance de cada acontecimento:</p>
+{sliders}`
+
+AuthorCellManager.singleSliderTemplate =
+`<div style="flex:48px; max-height:48px; display:flex; flex-direction:row">
+   <img src="{pre-image}" style="flex:10%; max-width:{pre-width}px; max-height:{pre-height}px">
+   <span style="border-left:6px solid gray; height: 48px;"></span>
+   <img src="{pos-image}" style="flex:10%; max-width:{pos-width}px; max-height:{pos-height}px">
+   <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
+      <dcc-slider variable="{variable}" value="{initial}" index></dcc-slider>
+   </div>
+</div>
+<hr>`
+
 })()
