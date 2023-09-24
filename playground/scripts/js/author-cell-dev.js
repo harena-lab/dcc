@@ -6,6 +6,8 @@ class AuthorCellManagerDev {
       this.saveSpaceScripts.bind(this))
     MessageBus.i.subscribe('control/editor/load',
       this.loadSpaceScripts.bind(this))
+    MessageBus.i.subscribe('control/editor/example',
+      this.loadExample.bind(this))
     MessageBus.i.subscribe('control/editor/export',
       this.exportSpaceScripts.bind(this))
     MessageBus.i.subscribe('control/editor/import',
@@ -77,8 +79,6 @@ class AuthorCellManagerDev {
   async fileDropped (event) {
     event.preventDefault()
 
-    const playground = AuthorCellManager.instance.playground
-
     let file = null
     if (event.dataTransfer.items) {
       for (let item of event.dataTransfer.items) {
@@ -89,11 +89,26 @@ class AuthorCellManagerDev {
       file = event.dataTransfer.files[0]
     const content = await file.text()
 
+    this.updateState(content)
+  }
+
+  updateState (content) {
     const [space, scripts] = content.split('[[[scripts]]]')
     MessageBus.i.publish('dcc-space-cellular/update/state', JSON.parse(space))
-    this.serializer.load(JSON.parse(scripts), playground)
+    this.serializer.load(JSON.parse(scripts),
+                         AuthorCellManager.instance.playground)
     
     this.dropZone.innerHTML = 'IMPORTAR'
+  }
+
+  addExample (content) {
+    this._example = content
+  }
+
+  loadExample (content) {
+    if (this._example) {
+      this.updateState(this._example)
+    }
   }
 }
 
