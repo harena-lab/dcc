@@ -750,7 +750,7 @@ class GraphLayoutDG extends GraphLayout {
     } while (proximo != null)
 
     const container = this._graph._container
-    this._graph.width = (container && container.width &&
+    this._graph.width = (container && container.label && container.width &&
                          container.width > maxX + param.hmargin)
       ? container.width : maxX + param.hmargin
     this._graph.height = maxY + param.vmargin
