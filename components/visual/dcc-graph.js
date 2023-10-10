@@ -414,6 +414,11 @@ class GraphNode extends GraphPiece {
     this._node = {}
     Object.assign(this._node, node)
 
+    if (node.width == null)
+      this._node.width =
+        (node.label && node.label.length * 10 + 20 > GraphNode.standardDimensions.width)
+          ? node.label.length * 10 + 20 : GraphNode.standardDimensions.width
+
     this._nodeClicked = this._nodeClicked.bind(this)
     this._nodeUnselect = this._nodeUnselect.bind(this)
     this._showContextMenu = this._showContextMenu.bind(this)
@@ -744,7 +749,10 @@ class GraphLayoutDG extends GraphLayout {
       proximo = this._graph.nodes.find(node => node.level == -1)
     } while (proximo != null)
 
-    this._graph.width = maxX + param.hmargin
+    const container = this._graph._container
+    this._graph.width = (container && container.width &&
+                         container.width > maxX + param.hmargin)
+      ? container.width : maxX + param.hmargin
     this._graph.height = maxY + param.vmargin
 
     for (const edge of this._graph.edges) { edge.update() }
