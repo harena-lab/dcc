@@ -111,11 +111,34 @@ class AuthorCellManager {
             .replace('{pos-height}', sl.pos_height)
         }
       }
+      let sradio = ''
+      if (setup.radio) {
+        for (const r in setup.radio) {
+          const rl = setup.radio[r]
+          let options = ''
+          for (const o in rl.options) {
+            options += AuthorCellManager.singleRadioTemplate
+              .replace('{value}', rl.options[o])
+              .replace('{label}', o)
+          }
+          sradio += AuthorCellManager.radioSetTemplate
+            .replace('{variable}', r)
+            .replace('{pre-image}', rl.pre_image)
+            .replace('{pre-width}', rl.pre_width)
+            .replace('{pre-height}', rl.pre_height)
+            .replace('{pos-image}', rl.pos_image)
+            .replace('{pos-width}', rl.pos_width)
+            .replace('{pos-height}', rl.pos_height)
+            .replace('{options}', options)
+        }
+      }
 
       document.querySelector('#player-panel').innerHTML = setup.source
       this._insertHTML(setup.name, stypes, scats, setup.source,
         AuthorCellManager.buttonsTemplate.replace('{buttons}', sbuttons) +
-        AuthorCellManager.slidersTemplate.replace('{sliders}', ssliders))
+        AuthorCellManager.slidersTemplate
+          .replace('{sliders}', ssliders)
+          .replace('{radios}', sradio))
     } else {
       document.querySelector('#action-panels').innerHTML = (this._scriptActive)
         ? AuthorCellManager.scriptPanel : AuthorCellManager.noScriptPanel
@@ -432,7 +455,7 @@ AuthorCellManager.singleButtonTemplate =
 AuthorCellManager.slidersTemplate =
 `<hr style="height:4px;border-width:0;color:gray;background-color:gray">
 <p>Selecione abaixo a chance de cada acontecimento:</p>
-{sliders}`
+{sliders}{radios}`
 
 AuthorCellManager.singleSliderTemplate =
 `<div style="flex:48px; max-height:48px; display:flex; flex-direction:row">
@@ -444,5 +467,20 @@ AuthorCellManager.singleSliderTemplate =
    </div>
 </div>
 <hr>`
+
+AuthorCellManager.radioSetTemplate =
+`<div style="flex:48px; max-height:48px; display:flex; flex-direction:row">
+   <img src="{pre-image}" style="flex:10%; max-width:{pre-width}px; max-height:{pre-height}px">
+   <span style="border-left:6px solid gray; height: 48px;"></span>
+   <img src="{pos-image}" style="flex:10%; max-width:{pos-width}px; max-height:{pos-height}px">
+   &nbsp;
+   <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
+      <dcc-input-choice variable="{variable}" reveal="horizontal" exclusive>{options}</dcc-input-choice>
+   </div>
+</div>
+<hr>`
+
+AuthorCellManager.singleRadioTemplate =
+`<dcc-input-option value="{value}">{label}</dcc-input-option>`
 
 })()
