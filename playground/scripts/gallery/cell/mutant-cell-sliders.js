@@ -9,7 +9,7 @@
      ['brown', 'b', { src: 'images/cell/cell-brown.svg', width: 25, height: 25, alt: 'brown' }]
     ],
 ``,
-`<dcc-space-cellular-editor id="cellular-space" rows="28" cols="40"
+`<dcc-space-cellular-editor id="cellular-space" rows="28" cols="30"
 cell-width="20" cell-height="20" background-color="#dddddd" grid analysis>
 </dcc-space-cellular-editor>
 
