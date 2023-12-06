@@ -124,8 +124,7 @@ cell-width="20" cell-height="20" background-color="#dddddd" grid analysis>
 <subscribe-dcc target="cellular-space" topic="state/save" map="save"></subscribe-dcc>
 <subscribe-dcc target="cellular-space" topic="state/reset" map="reset"></subscribe-dcc>
 <subscribe-dcc target="cellular-space" topic="input/changed/space_scale" map="scale"></subscribe-dcc>`,
-`<p>Selecione um dos ícones abaixo para editar o ambiente:</p>
-<div style="flex:48px; max-height:48px; display:flex; flex-direction:row; border:2px">
+`<div style="flex:48px; max-height:48px; display:flex; flex-direction:row; border:2px">
 <div style="flex:10%; max-width:48px; max-height:48px; margin-right:10px">
   <dcc-button label="vazio" topic="type/empty"
                image="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-gray.svg">
@@ -152,83 +151,82 @@ cell-width="20" cell-height="20" background-color="#dddddd" grid analysis>
   </dcc-button>
 </div>
 </div><hr style="height:4px;border-width:0;color:gray;background-color:gray">
-<p>Selecione abaixo a chance de cada acontecimento:</p>
-<div style="flex:48px; max-height:48px; display:flex; flex-direction:row">
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-1-single.png" style="flex:10%; max-width:96px; max-height:48px">
+<div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
+   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-1-single.png" style="flex:10%; max-width:72px; max-height:36px">
    <span style="border-left:6px solid gray; height: 48px;"></span>
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-1-double.png" style="flex:10%; max-width:96px; max-height:48px">
+   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-1-double.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
       <dcc-input-choice variable="c1duplicates" reveal="horizontal" exclusive><dcc-input-option value="5">baixo</dcc-input-option><dcc-input-option value="20">médio-baixo</dcc-input-option><dcc-input-option value="30">médio</dcc-input-option><dcc-input-option value="35">médio-alto</dcc-input-option><dcc-input-option value="60">alto</dcc-input-option></dcc-input-choice>
    </div>
 </div>
-<hr><div style="flex:48px; max-height:48px; display:flex; flex-direction:row">
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-1-single.png" style="flex:10%; max-width:96px; max-height:48px">
+<hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
+   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-1-single.png" style="flex:10%; max-width:72px; max-height:36px">
    <span style="border-left:6px solid gray; height: 48px;"></span>
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-1-dies.png" style="flex:10%; max-width:96px; max-height:48px">
+   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-1-dies.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
       <dcc-input-choice variable="c1dies" reveal="horizontal" exclusive><dcc-input-option value="5">baixo</dcc-input-option><dcc-input-option value="20">médio-baixo</dcc-input-option><dcc-input-option value="30">médio</dcc-input-option><dcc-input-option value="35">médio-alto</dcc-input-option><dcc-input-option value="60">alto</dcc-input-option></dcc-input-choice>
    </div>
 </div>
-<hr><div style="flex:48px; max-height:48px; display:flex; flex-direction:row">
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-1-single.png" style="flex:10%; max-width:96px; max-height:48px">
+<hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
+   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-1-single.png" style="flex:10%; max-width:72px; max-height:36px">
    <span style="border-left:6px solid gray; height: 48px;"></span>
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-single.png" style="flex:10%; max-width:96px; max-height:48px">
+   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-single.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
       <dcc-input-choice variable="c1mutant" reveal="horizontal" exclusive><dcc-input-option value="0.5">baixo</dcc-input-option><dcc-input-option value="2">médio</dcc-input-option><dcc-input-option value="5">alto</dcc-input-option></dcc-input-choice>
    </div>
 </div>
-<hr><div style="flex:48px; max-height:48px; display:flex; flex-direction:row">
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-single.png" style="flex:10%; max-width:96px; max-height:48px">
+<hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
+   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-single.png" style="flex:10%; max-width:72px; max-height:36px">
    <span style="border-left:6px solid gray; height: 48px;"></span>
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-double.png" style="flex:10%; max-width:96px; max-height:48px">
+   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-double.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
       <dcc-input-choice variable="c3duplicates" reveal="horizontal" exclusive><dcc-input-option value="5">baixo</dcc-input-option><dcc-input-option value="20">médio-baixo</dcc-input-option><dcc-input-option value="30">médio</dcc-input-option><dcc-input-option value="35">médio-alto</dcc-input-option><dcc-input-option value="60">alto</dcc-input-option></dcc-input-choice>
    </div>
 </div>
-<hr><div style="flex:48px; max-height:48px; display:flex; flex-direction:row">
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-single.png" style="flex:10%; max-width:96px; max-height:48px">
+<hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
+   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-single.png" style="flex:10%; max-width:72px; max-height:36px">
    <span style="border-left:6px solid gray; height: 48px;"></span>
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-dies.png" style="flex:10%; max-width:96px; max-height:48px">
+   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-dies.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
       <dcc-input-choice variable="c3dies" reveal="horizontal" exclusive><dcc-input-option value="5">baixo</dcc-input-option><dcc-input-option value="20">médio-baixo</dcc-input-option><dcc-input-option value="30">médio</dcc-input-option><dcc-input-option value="35">médio-alto</dcc-input-option><dcc-input-option value="60">alto</dcc-input-option></dcc-input-choice>
    </div>
 </div>
-<hr><div style="flex:48px; max-height:48px; display:flex; flex-direction:row">
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-single.png" style="flex:10%; max-width:96px; max-height:48px">
+<hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
+   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-single.png" style="flex:10%; max-width:72px; max-height:36px">
    <span style="border-left:6px solid gray; height: 48px;"></span>
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-single.png" style="flex:10%; max-width:96px; max-height:48px">
+   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-single.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
       <dcc-input-choice variable="c3mutant" reveal="horizontal" exclusive><dcc-input-option value="0.5">baixo</dcc-input-option><dcc-input-option value="2">médio</dcc-input-option><dcc-input-option value="5">alto</dcc-input-option></dcc-input-choice>
    </div>
 </div>
-<hr><div style="flex:48px; max-height:48px; display:flex; flex-direction:row">
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-single.png" style="flex:10%; max-width:96px; max-height:48px">
+<hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
+   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-single.png" style="flex:10%; max-width:72px; max-height:36px">
    <span style="border-left:6px solid gray; height: 48px;"></span>
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-double.png" style="flex:10%; max-width:96px; max-height:48px">
+   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-double.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
       <dcc-input-choice variable="c5duplicates" reveal="horizontal" exclusive><dcc-input-option value="5">baixo</dcc-input-option><dcc-input-option value="20">médio-baixo</dcc-input-option><dcc-input-option value="30">médio</dcc-input-option><dcc-input-option value="35">médio-alto</dcc-input-option><dcc-input-option value="60">alto</dcc-input-option></dcc-input-choice>
    </div>
 </div>
-<hr><div style="flex:48px; max-height:48px; display:flex; flex-direction:row">
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-single.png" style="flex:10%; max-width:96px; max-height:48px">
+<hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
+   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-single.png" style="flex:10%; max-width:72px; max-height:36px">
    <span style="border-left:6px solid gray; height: 48px;"></span>
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-dies.png" style="flex:10%; max-width:96px; max-height:48px">
+   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-dies.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
       <dcc-input-choice variable="c5dies" reveal="horizontal" exclusive><dcc-input-option value="5">baixo</dcc-input-option><dcc-input-option value="20">médio-baixo</dcc-input-option><dcc-input-option value="30">médio</dcc-input-option><dcc-input-option value="35">médio-alto</dcc-input-option><dcc-input-option value="60">alto</dcc-input-option></dcc-input-choice>
    </div>
 </div>
-<hr><div style="flex:48px; max-height:48px; display:flex; flex-direction:row">
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-single.png" style="flex:10%; max-width:96px; max-height:48px">
+<hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
+   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-single.png" style="flex:10%; max-width:72px; max-height:36px">
    <span style="border-left:6px solid gray; height: 48px;"></span>
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-moves.png" style="flex:10%; max-width:96px; max-height:48px">
+   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-moves.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
       <dcc-input-choice variable="c5moves" reveal="horizontal" exclusive><dcc-input-option value="5">baixo</dcc-input-option><dcc-input-option value="30">médio</dcc-input-option><dcc-input-option value="80">alto</dcc-input-option></dcc-input-choice>
