@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <title>Simulador em Espaço Celular</title>
+
+   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" name="viewport">
+
+   <link rel="stylesheet" href="../lib/fontawesome-5-10-1/css/all.min.css">
+   <link rel="stylesheet" href="../lib/bootstrap-4.4.1/css/bootstrap.min.css">
+
+   <link rel="stylesheet" href="../../css/dccs.css">
+   <link rel="stylesheet" href="../harena/common-player.css">
+   <link rel="stylesheet" href="../harena/common-author.css">
+
+   <script src="../lib/jquery-3-4-1/jquery-3.4.1.slim.min.js"></script>
+   <script src="../lib/popper-1-15-0/popper.min.js"></script>
+   <script src="../lib/bootstrap-4.4.1/js/bootstrap.min.js"></script>
+
+   <script src="../../lib/blockly-9.2.0/blockly_compressed.js"></script>
+   <script src="../../lib/blockly-9.2.0/blocks_compressed.js"></script>
+   <script src="../../lib/blockly-9.2.0/msg/pt-br.js"></script>
+   <script src="../../lib/blockly-9.2.0/javascript_compressed.js"></script>
+   <script src="../../lib/blockly-9.2.0/field-slider.js"></script>
+   <script src="../../lib/blockly-9.2.0/zoom-to-fit.js"></script>
+
+   <script src="../harena/config.js"></script>
+   <script src="../../infra/bus.js"></script>
+
+   <script src="../../scripts/blocks-cell.js"></script>
+
+   <script src="../../base/primitive-dcc.js"></script>
+   <script src="../../base/scope-dcc.js"></script>
+   <script src="../../base/subscribe-dcc.js"></script>
+   <script src="../../base/property-dcc.js"></script>
+   <script src="../../base/dcc.js"></script>
+   <script src="../../base/dcc-base.js"></script>
+   <script src="../../components/control/dcc-timer.js"></script>
+   <script src="../../base/dcc-visual.js"></script>
+
+   <script src="../harena/dcc-common-server-proxy.js"></script>
+
+   <script src="../../components/visual/dcc-markdown.js"></script>
+   <script src="../../components/visual/dcc-annotation.js"></script>
+   <script src="../../components/visual/dcc-image.js"></script>
+   <script src="../../components/visual/dcc-expression.js"></script>
+   <script src="../../base/dcc-block.js"></script>
+   <script src="../../components/visual/dcc-button.js"></script>
+   <script src="../../components/visual/dcc-character.js"></script>
+   <script src="../../components/visual/dcc-lively-dialog.js"></script>
+   <script src="../../components/visual/dcc-notice-input.js"></script>
+   <script src="../../components/visual/dcc-state-select.js"></script>
+   <script src="../../components/visual/dcc-image-marker.js"></script>
+   <script src="../../base/dcc-styler.js"></script>
+   <script src="../../components/visual/dcc-entity.js"></script>
+   <script src="../../components/visual/dcc-input.js"></script>
+   <script src="../../components/visual/dcc-input-typed.js"></script>
+   <script src="../../components/visual/dcc-input-choice.js"></script>
+   <script src="../../components/visual/dcc-input-table.js"></script>
+   <script src="../../components/visual/dcc-slider.js"></script>
+   <script src="../../components/visual/dcc-chart.js"></script>
+   <script src="../../components/control/dcc-compute.js"></script>
+   <script src="../../components/visual/dcc-report.js"></script>
+
+   <script src="../../components/cell/dcc-space-cellular.js"></script>
+   <script src="../../components/cell/dcc-cell.js"></script>
+   <script src="../../components/cell/dcc-cell-color.js"></script>
+   <script src="../../components/cell/dcc-cell-image.js"></script>
+   <script src="../../components/cell/dcc-cell-ruler.js"></script>
+   <script src="../../components/cell/rule-dcc-cell.js"></script>
+   <script src="../../components/cell/rule-dcc-cell-transition.js"></script>
+   <script src="../../components/cell/rule-dcc-cell-neighbor.js"></script>
+   <script src="../../components/cell/rule-dcc-cell-expression.js"></script>
+
+   <script src="../../components/web/dcc-dhtml.js"></script>
+
+   <script src="js/author-cell.js"></script>
+</head>
+
+<script>
+  function start() {
+    AuthorCellManager.instance.start()
+    MessageBus.i.publish('control/editor/switch', null, true)
+  }
+</script>
+
+<body onload="start()">
+  <main role="main">
+    <div class="d-flex flex-column vh-100 hidden-overflow">
+      <div class="align-items-stretch col-12">
+        <div class="std-panel h-100 w-100">
+           <div class="d-flex panel-label">
+              <span style="display: none" id="source-name">Result</span>
+              <div id="operation-panel" class="d-flex col-12">
+                <div id="panel1-button" style="width:48px;height:48px;color:#495057;margin-right:10px">
+                  <dcc-button label="Panel1" topic="control/editor/switch-panel"
+                               image="images/icon/switch-off.svg"></dcc-button>
+                </div>
+                <div id="panel2-button" style="width:48px;height:48px;color:#495057;margin-right:10px;display:none">
+                  <dcc-button label="Panel2" topic="control/editor/switch-panel"
+                               image="images/icon/switch-on.svg"></dcc-button>
+                </div>
+                <div id="play-button" style="width:48px;height:48px;color:#495057;margin-right:10px">
+                  <dcc-button label="Play" topic="control/space/play"
+                               image="images/icon/play.svg"></dcc-button>
+                </div>
+                <div id="stop-button" style="width:48px;height:48px;color:#495057;margin-right:10px">
+                  <dcc-button label="Stop" topic="control/space/stop"
+                               image="images/icon/stop.svg"></dcc-button>
+                </div>
+                <div id="restart-button" style="width:48px;height:48px;color:#495057;margin-right:10px">
+                  <dcc-button label="Restart" topic="control/space/restart"
+                               image="images/icon/restart.svg"></dcc-button>
+                </div>
+                <div id="next-button" style="width:48px;height:48px;color:#495057">
+                  <dcc-button label="Next" topic="state/next"
+                               image="images/icon/step.svg"></dcc-button>
+                </div>
+              </div>
+           </div>
+           <div id="action-panels" class="d-flex h-100 mb-3">
+           </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="xml-toolbox"></div>
+
+  </main>
+
+   </body>
+</html>

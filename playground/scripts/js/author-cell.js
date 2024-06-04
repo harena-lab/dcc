@@ -45,6 +45,9 @@ class AuthorCellManager {
     MessageBus.i.subscribe('control/cells/retract', this.cellsRetract)
     MessageBus.i.subscribe('control/editor/finish', this.editorFinish)
 
+    this._activePanel = 1
+    MessageBus.i.subscribe('control/editor/switch-panel', this.switchPanel.bind(this))
+
     MessageBus.i.subscribe('input/changed/#', this.updateInputTrack)
     MessageBus.i.subscribe('dcc/analysis/data', this.updateAnalysis)
 
@@ -65,6 +68,13 @@ class AuthorCellManager {
       }
       if (md.includes('no-hide'))
         AuthorCellManager.stateVis['types-panel'][1] = 1
+      if (md.includes('mobile')) {
+        this._mobileMode = true
+        AuthorCellManager.stateVis['play-button'][0] = 1
+        AuthorCellManager.stateVis['restart-button'][0] = 1
+        AuthorCellManager.stateVis['next-button'][0] = 1
+      } else
+        this._mobileMode = false
     }
 
     if (setup != null) {
@@ -140,8 +150,10 @@ class AuthorCellManager {
           .replace('{sliders}', ssliders)
           .replace('{radios}', sradio))
     } else {
-      document.querySelector('#action-panels').innerHTML = (this._scriptActive)
-        ? AuthorCellManager.scriptPanel : AuthorCellManager.noScriptPanel
+      document.querySelector('#action-panels').innerHTML = 
+        (this._mobileMode) ? AuthorCellManager.mobilePanel :
+          (this._scriptActive)
+            ? AuthorCellManager.scriptPanel : AuthorCellManager.noScriptPanel
       this.source = parameters.get('source')
       if (this.source != null) {
         const caseScript = document.createElement('script')
@@ -258,6 +270,22 @@ class AuthorCellManager {
       MessageBus.i.publish('space/view', null, true)
       MessageBus.i.publish('control/finish/enable', null, true)
 	  }
+  }
+
+  // only for mobile
+  switchPanel () {
+    if (this._activePanel == 1) {
+      document.querySelector('#panel1-button').style.display = 'none'
+      document.querySelector('#panel2-button').style.display = 'initial'
+      document.querySelector('#space-block').style.display = 'none'
+      document.querySelector('#configuration-block').style.display = 'initial'
+    } else {
+      document.querySelector('#panel1-button').style.display = 'initial'
+      document.querySelector('#panel2-button').style.display = 'none'
+      document.querySelector('#space-block').style.display = 'initial'
+      document.querySelector('#configuration-block').style.display = 'none'
+    }
+    this._activePanel = 3 - this._activePanel
   }
 
   playSpace () {
@@ -430,6 +458,20 @@ AuthorCellManager.noScriptPanel =
    <div id="types-panel" class="h-100 w-100"></div>
    <div id="script-panel"></div>
    <div id="rules-panel"></div>
+</div>`
+
+AuthorCellManager.mobilePanel =
+`<div id="space-block">
+<div class="d-flex col-12 flex-column align-items-stretch">
+   <div id="render-panel"></div>
+</div>
+</div>
+<div id="configuration-block" style="display:none">
+<div class="d-flex col-12 flex-column align-items-stretch">
+   <div id="types-panel" class="h-100 w-100"></div>
+   <div id="script-panel"></div>
+   <div id="rules-panel"></div>
+</div>
 </div>`
 
 AuthorCellManager.blockCategoryTemplate =
