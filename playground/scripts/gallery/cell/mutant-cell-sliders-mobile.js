@@ -9,7 +9,7 @@
      ['brown', 'b', { src: 'images/cell/cell-brown.svg', width: 25, height: 25, alt: 'brown' }]
     ],
 ``,
-`<dcc-space-cellular-editor id="cellular-space" rows="28" cols="30"
+`<dcc-space-cellular-editor id="cellular-space" rows="28" cols="17"
 cell-width="20" cell-height="20" background-color="#dddddd" grid analysis>
 </dcc-space-cellular-editor>
 
@@ -46,8 +46,8 @@ cell-width="20" cell-height="20" background-color="#dddddd" grid analysis>
     <img style="max-width:48px; max-height:48px; margin-left:24px; margin-right:24px"
          src="images/icon/clock.svg">
  </div>
- <div style="flex:50%; max-height:48px; margin-right:10px">
-    <dcc-slider variable="timer_interval" min="1" max="1000" value="1000" index></dcc-slider>
+ <div style="flex:50%; max-height:48px; margin-right:10px; padding-top: 15px">
+   <dcc-input-choice variable="timer_interval" reveal="horizontal" exclusive><dcc-input-option value="1000" checked>1</dcc-input-option><dcc-input-option value="500">2</dcc-input-option><dcc-input-option value="200">3</dcc-input-option><dcc-input-option value="100">4</dcc-input-option><dcc-input-option value="1">5</dcc-input-option></dcc-input-choice>
  </div>
 </div>
 
@@ -56,8 +56,8 @@ cell-width="20" cell-height="20" background-color="#dddddd" grid analysis>
     <img style="max-width:48px; max-height:48px; margin-left:24px; margin-right:24px"
          src="images/icon/zoom.svg">
  </div>
- <div style="flex:50%; max-height:48px; margin-right:10px">
-    <dcc-slider variable="space_scale" min="1" max="100" value="1" index></dcc-slider>
+ <div style="flex:50%; max-height:48px; margin-right:10px; padding-top: 15px">
+   <dcc-input-choice variable="space_scale" reveal="horizontal" exclusive><dcc-input-option checked>1</dcc-input-option><dcc-input-option>2</dcc-input-option><dcc-input-option>3</dcc-input-option></dcc-input-choice>
  </div>
 </div>
 
@@ -153,8 +153,6 @@ cell-width="20" cell-height="20" background-color="#dddddd" grid analysis>
 <subscribe-dcc target="cellular-space" topic="state/reset" map="reset"></subscribe-dcc>
 <subscribe-dcc target="cellular-space" topic="input/changed/space_scale" map="scale"></subscribe-dcc>`,
 `<div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-1-single.png" style="flex:10%; max-width:72px; max-height:36px">
-   <span style="border-left:6px solid gray; height: 48px;"></span>
    <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-1-double.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
@@ -162,8 +160,6 @@ cell-width="20" cell-height="20" background-color="#dddddd" grid analysis>
    </div>
 </div>
 <hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-1-single.png" style="flex:10%; max-width:72px; max-height:36px">
-   <span style="border-left:6px solid gray; height: 48px;"></span>
    <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-1-dies.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
@@ -171,17 +167,13 @@ cell-width="20" cell-height="20" background-color="#dddddd" grid analysis>
    </div>
 </div>
 <hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-1-single.png" style="flex:10%; max-width:72px; max-height:36px">
-   <span style="border-left:6px solid gray; height: 48px;"></span>
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-single.png" style="flex:10%; max-width:72px; max-height:36px">
+   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-1-mutate-cell-3.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
       <dcc-input-choice variable="c1mutant" reveal="horizontal" exclusive><dcc-input-option value="0.5">1</dcc-input-option><dcc-input-option value="2">3</dcc-input-option><dcc-input-option value="5">5</dcc-input-option></dcc-input-choice>
    </div>
 </div>
 <hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-single.png" style="flex:10%; max-width:72px; max-height:36px">
-   <span style="border-left:6px solid gray; height: 48px;"></span>
    <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-double.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
@@ -189,8 +181,6 @@ cell-width="20" cell-height="20" background-color="#dddddd" grid analysis>
    </div>
 </div>
 <hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-single.png" style="flex:10%; max-width:72px; max-height:36px">
-   <span style="border-left:6px solid gray; height: 48px;"></span>
    <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-dies.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
@@ -198,17 +188,13 @@ cell-width="20" cell-height="20" background-color="#dddddd" grid analysis>
    </div>
 </div>
 <hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-single.png" style="flex:10%; max-width:72px; max-height:36px">
-   <span style="border-left:6px solid gray; height: 48px;"></span>
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-single.png" style="flex:10%; max-width:72px; max-height:36px">
+   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-mutate-cell-5.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
       <dcc-input-choice variable="c3mutant" reveal="horizontal" exclusive><dcc-input-option value="0.5">1</dcc-input-option><dcc-input-option value="2">3</dcc-input-option><dcc-input-option value="5">5</dcc-input-option></dcc-input-choice>
    </div>
 </div>
 <hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-single.png" style="flex:10%; max-width:72px; max-height:36px">
-   <span style="border-left:6px solid gray; height: 48px;"></span>
    <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-double.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
@@ -216,8 +202,6 @@ cell-width="20" cell-height="20" background-color="#dddddd" grid analysis>
    </div>
 </div>
 <hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-single.png" style="flex:10%; max-width:72px; max-height:36px">
-   <span style="border-left:6px solid gray; height: 48px;"></span>
    <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-dies.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
@@ -225,8 +209,6 @@ cell-width="20" cell-height="20" background-color="#dddddd" grid analysis>
    </div>
 </div>
 <hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
-   <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-single.png" style="flex:10%; max-width:72px; max-height:36px">
-   <span style="border-left:6px solid gray; height: 48px;"></span>
    <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-moves.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">

@@ -462,12 +462,12 @@ AuthorCellManager.noScriptPanel =
 
 AuthorCellManager.mobilePanel =
 `<div id="space-block">
-<div class="d-flex col-12 flex-column align-items-stretch">
+<div class="d-flex col-12 flex-column align-items-stretch" style="padding-left:0;padding-right:0">
    <div id="render-panel"></div>
 </div>
 </div>
 <div id="configuration-block" style="display:none">
-<div class="d-flex col-12 flex-column align-items-stretch">
+<div class="d-flex col-12 flex-column align-items-stretch" style="padding-left:0;padding-right:0">
    <div id="types-panel" class="h-100 w-100"></div>
    <div id="script-panel"></div>
    <div id="rules-panel"></div>
