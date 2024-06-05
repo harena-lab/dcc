@@ -5,38 +5,43 @@
      ['cell1', '1', { src: 'images/cell/cell-1.png', width: 25, height: 25, alt: 'célula 1' }],
      ['cell3', '3', { src: 'images/cell/cell-3.png', width: 25, height: 25, alt: 'célula 3' }],
      ['cell5', '5', { src: 'images/cell/cell-5.png', width: 25, height: 25, alt: 'célula 5' }],
-     ['yellow', 'y', { src: 'images/cell/cell-yellow.svg', width: 25, height: 25, alt: 'yellow' }],
-     ['brown', 'b', { src: 'images/cell/cell-brown.svg', width: 25, height: 25, alt: 'brown' }]
+     ['yellow','y', { src: 'images/cell/cell-yellow.svg', width: 25, height: 25, alt: 'yellow' }],
+     ['brown', 'b', { src: 'images/cell/cell-brown.svg', width: 25, height: 25, alt: 'brown' }],
+     ['red',   'r', { src: 'images/cell/cell-red.svg', width: 25, height: 25, alt: 'yellow' }]
     ],
 ``,
-`<dcc-space-cellular-editor id="cellular-space" rows="28" cols="17"
+`<dcc-space-cellular-editor id="cellular-space" rows="20" cols="17"
 cell-width="20" cell-height="20" background-color="#dddddd" grid analysis>
 </dcc-space-cellular-editor>
 
 <div style="flex:48px; max-height:48px; display:flex; flex-direction:row; border:2px">
-<div style="flex:10%; max-width:48px; max-height:48px; margin-right:10px">
+<div style="flex:10%; max-width:40px; max-height:40px; margin-right:10px">
   <dcc-button label="vazio" topic="type/empty"
                image="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-gray.svg">
   </dcc-button>
-</div><div style="flex:10%; max-width:48px; max-height:48px; margin-right:10px">
+</div><div style="flex:10%; max-width:40px; max-height:40px; margin-right:10px">
   <dcc-button label="célula 1" topic="type/cell1"
                image="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-1.png">
   </dcc-button>
-</div><div style="flex:10%; max-width:48px; max-height:48px; margin-right:10px">
+</div><div style="flex:10%; max-width:40px; max-height:40px; margin-right:10px">
   <dcc-button label="célula 3" topic="type/cell3"
                image="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3.png">
   </dcc-button>
-</div><div style="flex:10%; max-width:48px; max-height:48px; margin-right:10px">
+</div><div style="flex:10%; max-width:40px; max-height:40px; margin-right:10px">
   <dcc-button label="célula 5" topic="type/cell5"
                image="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5.png">
   </dcc-button>
-</div><div style="flex:10%; max-width:48px; max-height:48px; margin-right:10px">
+</div><div style="flex:10%; max-width:40px; max-height:40px; margin-right:10px">
   <dcc-button label="yellow" topic="type/yellow"
                image="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-yellow.svg">
   </dcc-button>
-</div><div style="flex:10%; max-width:48px; max-height:48px; margin-right:10px">
+</div><div style="flex:10%; max-width:40px; max-height:40px; margin-right:10px">
   <dcc-button label="brown" topic="type/brown"
                image="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-brown.svg">
+  </dcc-button>
+</div><div style="flex:10%; max-width:40px; max-height:40px; margin-right:10px">
+  <dcc-button label="red" topic="type/red"
+               image="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-red.svg">
   </dcc-button>
 </div>
 </div>
@@ -67,6 +72,7 @@ cell-width="20" cell-height="20" background-color="#dddddd" grid analysis>
 <dcc-cell-image type="5" label="cell5" image="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5.png"></dcc-cell-image>
 <dcc-cell-image type="y" label="yellow" image="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-yellow.svg"></dcc-cell-image>
 <dcc-cell-image type="b" label="brown" image="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-brown.svg"></dcc-cell-image>
+<dcc-cell-image type="r" label="red" image="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-red.svg"></dcc-cell-image>
 
 <rule-dcc-cell-pair id="c1-duplicates" label="duplicates" probability="0" transition="1_>11">
  ***
@@ -131,12 +137,19 @@ cell-width="20" cell-height="20" background-color="#dddddd" grid analysis>
  *_*
  ***
 </rule-dcc-cell-pair>
+<rule-dcc-cell-pair id="c5-blood" label="blood" probability="0" transition="5r>55">
+ ***
+ *_*
+ ***
+</rule-dcc-cell-pair>
 <rule-dcc-cell-pair id="c5-moves" label="moves" probability="0" transition="5y>y5">
  ***
  *_*
  ***
 </rule-dcc-cell-pair>
 <subscribe-dcc target="c5-barrier" topic="input/changed/c5moves" map="probability">
+</subscribe-dcc>
+<subscribe-dcc target="c5-blood" topic="input/changed/c5moves" map="probability">
 </subscribe-dcc>
 <subscribe-dcc target="c5-moves" topic="input/changed/c5moves" map="probability">
 </subscribe-dcc>
@@ -156,63 +169,63 @@ cell-width="20" cell-height="20" background-color="#dddddd" grid analysis>
    <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-1-double.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
-      <dcc-input-choice variable="c1duplicates" reveal="horizontal" exclusive><dcc-input-option value="5">1</dcc-input-option><dcc-input-option value="20">2</dcc-input-option><dcc-input-option value="30">3</dcc-input-option><dcc-input-option value="35">4</dcc-input-option><dcc-input-option value="60">5</dcc-input-option></dcc-input-choice>
+      <dcc-input-choice variable="c1duplicates" reveal="horizontal" exclusive><dcc-input-option value="0" checked>0</dcc-input-option><dcc-input-option value="5">1</dcc-input-option><dcc-input-option value="20">2</dcc-input-option><dcc-input-option value="30">3</dcc-input-option><dcc-input-option value="60">4</dcc-input-option></dcc-input-choice>
    </div>
 </div>
 <hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
    <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-1-dies.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
-      <dcc-input-choice variable="c1dies" reveal="horizontal" exclusive><dcc-input-option value="5">1</dcc-input-option><dcc-input-option value="20">2</dcc-input-option><dcc-input-option value="30">3</dcc-input-option><dcc-input-option value="35">4</dcc-input-option><dcc-input-option value="60">5</dcc-input-option></dcc-input-choice>
+      <dcc-input-choice variable="c1dies" reveal="horizontal" exclusive><dcc-input-option value="0" checked>0</dcc-input-option><dcc-input-option value="5">1</dcc-input-option><dcc-input-option value="20">2</dcc-input-option><dcc-input-option value="30">3</dcc-input-option><dcc-input-option value="60">4</dcc-input-option></dcc-input-choice>
    </div>
 </div>
 <hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
    <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-1-mutate-cell-3.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
-      <dcc-input-choice variable="c1mutant" reveal="horizontal" exclusive><dcc-input-option value="0.5">1</dcc-input-option><dcc-input-option value="2">3</dcc-input-option><dcc-input-option value="5">5</dcc-input-option></dcc-input-choice>
+      <dcc-input-choice variable="c1mutant" reveal="horizontal" exclusive><dcc-input-option value="0" checked>0</dcc-input-option><dcc-input-option value="0.5">1</dcc-input-option><dcc-input-option value="2">3</dcc-input-option><dcc-input-option value="5">5</dcc-input-option></dcc-input-choice>
    </div>
 </div>
 <hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
    <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-double.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
-      <dcc-input-choice variable="c3duplicates" reveal="horizontal" exclusive><dcc-input-option value="5">1</dcc-input-option><dcc-input-option value="20">2</dcc-input-option><dcc-input-option value="30">3</dcc-input-option><dcc-input-option value="35">4</dcc-input-option><dcc-input-option value="60">5</dcc-input-option></dcc-input-choice>
+      <dcc-input-choice variable="c3duplicates" reveal="horizontal" exclusive><dcc-input-option value="0" checked>0</dcc-input-option><dcc-input-option value="5">1</dcc-input-option><dcc-input-option value="20">2</dcc-input-option><dcc-input-option value="30">3</dcc-input-option><dcc-input-option value="60">4</dcc-input-option></dcc-input-choice>
    </div>
 </div>
 <hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
    <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-dies.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
-      <dcc-input-choice variable="c3dies" reveal="horizontal" exclusive><dcc-input-option value="5">1</dcc-input-option><dcc-input-option value="20">2</dcc-input-option><dcc-input-option value="30">3</dcc-input-option><dcc-input-option value="35">4</dcc-input-option><dcc-input-option value="60">5</dcc-input-option></dcc-input-choice>
+      <dcc-input-choice variable="c3dies" reveal="horizontal" exclusive><dcc-input-option value="0" checked>0</dcc-input-option><dcc-input-option value="5">1</dcc-input-option><dcc-input-option value="20">2</dcc-input-option><dcc-input-option value="30">3</dcc-input-option><dcc-input-option value="60">4</dcc-input-option></dcc-input-choice>
    </div>
 </div>
 <hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
    <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-3-mutate-cell-5.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
-      <dcc-input-choice variable="c3mutant" reveal="horizontal" exclusive><dcc-input-option value="0.5">1</dcc-input-option><dcc-input-option value="2">3</dcc-input-option><dcc-input-option value="5">5</dcc-input-option></dcc-input-choice>
+      <dcc-input-choice variable="c3mutant" reveal="horizontal" exclusive><dcc-input-option value="0" checked>0</dcc-input-option><dcc-input-option value="0.5">1</dcc-input-option><dcc-input-option value="2">3</dcc-input-option><dcc-input-option value="5">5</dcc-input-option></dcc-input-choice>
    </div>
 </div>
 <hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
    <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-double.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
-      <dcc-input-choice variable="c5duplicates" reveal="horizontal" exclusive><dcc-input-option value="5">1</dcc-input-option><dcc-input-option value="20">2</dcc-input-option><dcc-input-option value="30">3</dcc-input-option><dcc-input-option value="35">4</dcc-input-option><dcc-input-option value="60">5</dcc-input-option></dcc-input-choice>
+      <dcc-input-choice variable="c5duplicates" reveal="horizontal" exclusive><dcc-input-option value="0" checked>0</dcc-input-option><dcc-input-option value="5">1</dcc-input-option><dcc-input-option value="20">2</dcc-input-option><dcc-input-option value="30">3</dcc-input-option><dcc-input-option value="60">4</dcc-input-option></dcc-input-choice>
    </div>
 </div>
 <hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
    <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-dies.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
-      <dcc-input-choice variable="c5dies" reveal="horizontal" exclusive><dcc-input-option value="5">1</dcc-input-option><dcc-input-option value="20">2</dcc-input-option><dcc-input-option value="30">3</dcc-input-option><dcc-input-option value="35">4</dcc-input-option><dcc-input-option value="60">5</dcc-input-option></dcc-input-choice>
+      <dcc-input-choice variable="c5dies" reveal="horizontal" exclusive><dcc-input-option value="0" checked>0</dcc-input-option><dcc-input-option value="5">1</dcc-input-option><dcc-input-option value="20">2</dcc-input-option><dcc-input-option value="30">3</dcc-input-option><dcc-input-option value="60">4</dcc-input-option></dcc-input-choice>
    </div>
 </div>
 <hr><div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
    <img src="https://mc-unicamp.github.io/oficinas/simula/mutant/image/cell-5-moves.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
-      <dcc-input-choice variable="c5moves" reveal="horizontal" exclusive><dcc-input-option value="5">1</dcc-input-option><dcc-input-option value="30">3</dcc-input-option><dcc-input-option value="80">5</dcc-input-option></dcc-input-choice>
+      <dcc-input-choice variable="c5moves" reveal="horizontal" exclusive><dcc-input-option value="0" checked>0</dcc-input-option><dcc-input-option value="5">1</dcc-input-option><dcc-input-option value="30">3</dcc-input-option><dcc-input-option value="80">5</dcc-input-option></dcc-input-choice>
    </div>
 </div>
 <hr>`
