@@ -11,6 +11,7 @@
      ['tile', '7', { src: 'images/cell/cell-tile.svg', width: 25, height: 25, alt: 'tile' }],
      ['yellow', '8', { src: 'images/cell/cell-yellow.svg', width: 25, height: 25, alt: 'yellow' }],
      ['brown', '9', { src: 'images/cell/cell-brown.svg', width: 25, height: 25, alt: 'brown' }],
+     ['red',   'r', { src: 'images/cell/cell-red.svg', width: 25, height: 25, alt: 'red' }],
      ['gray-darker', 'z', { src: 'images/cell/cell-gray-darker.svg', width: 25, height: 25, alt: 'darker gray' }]
     ],
 `<category name="Ação" colour="210">
@@ -18,7 +19,7 @@
   <block type="single"></block>
 </category>`,
 `<dcc-space-cellular-editor id="cellular-space" rows="28" cols="40"
-  cell-width="16" cell-height="16" background-color="#dddddd" grid analysis policy="crescent">
+  cell-width="20" cell-height="20" background-color="#dddddd" grid analysis policy="crescent">
 </dcc-space-cellular-editor>
 
 <dcc-cell-image type="1" label="green" image="images/cell/cell-1.png"></dcc-cell-image>
@@ -30,6 +31,7 @@
 <dcc-cell-image type="7" label="tile" image="images/cell/cell-tile.svg"></dcc-cell-image>
 <dcc-cell-image type="8" label="yellow" image="images/cell/cell-yellow.svg"></dcc-cell-image>
 <dcc-cell-image type="9" label="brown" image="images/cell/cell-brown.svg"></dcc-cell-image>
+<dcc-cell-image type="r" label="red" image="images/cell/cell-red.svg"></dcc-cell-image>
 <dcc-cell-image type="z" label="gray-darker" image="images/cell/cell-gray-darker.svg"></dcc-cell-image>
 
 <dcc-timer cycles="100000" interval="1000" topic="state/next">
@@ -108,6 +110,11 @@
    <div style="flex:10%; max-width:48px; max-height:48px; margin-right:10px">
       <dcc-button label="Yellow-Green" topic="type/brown"
                    image="images/cell/cell-brown.svg">
+      </dcc-button>
+   </div>
+   <div style="flex:10%; max-width:48px; max-height:48px; margin-right:10px">
+      <dcc-button label="Red" topic="type/red"
+                   image="images/cell/cell-red.svg">
       </dcc-button>
    </div>
    <div style="flex:10%; max-width:48px; max-height:48px; margin-right:10px">

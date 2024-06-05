@@ -73,6 +73,7 @@ class AuthorCellManager {
         AuthorCellManager.stateVis['play-button'][0] = 1
         AuthorCellManager.stateVis['restart-button'][0] = 1
         AuthorCellManager.stateVis['next-button'][0] = 1
+        document.querySelector('#panel1-button').style.display = 'initial'
       } else
         this._mobileMode = false
     }

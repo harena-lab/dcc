@@ -7,10 +7,10 @@
      ['cell5', '5', { src: 'images/cell/cell-5.png', width: 25, height: 25, alt: 'célula 5' }],
      ['yellow','y', { src: 'images/cell/cell-yellow.svg', width: 25, height: 25, alt: 'yellow' }],
      ['brown', 'b', { src: 'images/cell/cell-brown.svg', width: 25, height: 25, alt: 'brown' }],
-     ['red',   'r', { src: 'images/cell/cell-red.svg', width: 25, height: 25, alt: 'yellow' }]
+     ['red',   'r', { src: 'images/cell/cell-red.svg', width: 25, height: 25, alt: 'red' }]
     ],
 ``,
-`<dcc-space-cellular-editor id="cellular-space" rows="28" cols="30"
+`<dcc-space-cellular-editor id="cellular-space" rows="28" cols="40"
 cell-width="20" cell-height="20" background-color="#dddddd" grid analysis>
 </dcc-space-cellular-editor>
 
