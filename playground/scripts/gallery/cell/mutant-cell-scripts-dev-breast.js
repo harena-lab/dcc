@@ -19,7 +19,7 @@
   <block type="single"></block>
 </category>`,
 `<dcc-space-cellular-editor id="cellular-space" rows="28" cols="40"
-  cell-width="20" cell-height="20" background-image="images/photo/lactiferous-duct.jpg" grid analysis policy="crescent">
+  cell-width="20" cell-height="20" cover-image="images/photo/lactiferous-duct.jpg" cover-opacity="100" grid analysis policy="crescent">
 </dcc-space-cellular-editor>
 
 <dcc-cell-image type="1" label="green" image="images/cell/cell-1.png"></dcc-cell-image>
@@ -59,6 +59,17 @@
       <dcc-slider variable="space_scale" min="1" max="100" value="1" index></dcc-slider>
    </div>
 </div>
+
+<div style="flex:48px; max-height:48px; display:flex; flex-direction:row">
+   <div style="flex:20%; max-width:96px; max-height:48px">
+     <img src="images/icon/opacity.svg" style="max-width:48px; max-height:48px; margin-left:24px; margin-right:24px">
+   </div>
+   <div style="flex:50%; max-height:48px; margin-right:10px">
+      <dcc-slider variable="cover_opacity" value="100" index></dcc-slider>
+   </div>
+</div>
+<subscribe-dcc target="cellular-space" topic="input/changed/cover_opacity" map="cover-opacity">
+</subscribe-dcc>
 
 <subscribe-dcc target="cellular-space" topic="type/#"></subscribe-dcc>
 <subscribe-dcc target="cellular-space" topic="state/next" map="next"></subscribe-dcc>

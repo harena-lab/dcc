@@ -57,7 +57,9 @@ class RuleDCCCellNeighbor extends RuleDCCTransition {
 
   set probability (newValue) {
     this.setAttribute('probability', newValue)
-    this._decimalProbability = parseInt(newValue) / 100
+    this._decimalProbability = (this.probability.includes('.'))
+      ? parseFloat(this.probability) / 100
+      : parseInt(this.probability) / 100
   }
 
   get decimalProbability () {
