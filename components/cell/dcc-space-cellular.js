@@ -408,6 +408,10 @@ class DCCSpaceCellular extends DCCBase {
   notify (topic, message) {
     switch (topic.toLowerCase()) {
       case 'next': this.stateNext(); break
+      case 'cover-image':
+        this.coverImage = message.value
+        this.querySelector('#cover-image').setAttribute('href', this.coverImage)
+        break
       case 'cover-opacity':
         this.coverOpacity = parseInt(message.value) / 100
         this.querySelector('#cover-image').setAttribute('opacity', this.coverOpacity)

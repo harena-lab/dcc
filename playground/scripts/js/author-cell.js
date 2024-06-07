@@ -47,6 +47,10 @@ class AuthorCellManager {
 
     this._activePanel = 1
     MessageBus.i.subscribe('control/editor/switch-panel', this.switchPanel.bind(this))
+    this._backOpacity = 100
+    this._opacityVariation = -25
+    this._activeBack = 1
+    MessageBus.i.subscribe('control/editor/switch-back', this.switchBack.bind(this))
 
     MessageBus.i.subscribe('input/changed/#', this.updateInputTrack)
     MessageBus.i.subscribe('dcc/analysis/data', this.updateAnalysis)
@@ -171,6 +175,11 @@ class AuthorCellManager {
 
     this._caseId = caseId || parameters.get('case')
     this._askReset = (askReset != null) ? askReset : (parameters.get('ask') != null)
+
+    const cover = parameters.get('cover')
+    if (cover != null) {
+      MessageBus.i.publish('control/space/cover', {cover: cover}, true)
+    }
   }
 
   get playground () {
@@ -287,6 +296,23 @@ class AuthorCellManager {
       document.querySelector('#configuration-block').style.display = 'none'
     }
     this._activePanel = 3 - this._activePanel
+  }
+
+  switchBack () {
+    this._backOpacity += this._opacityVariation
+    if (this._backOpacity == 100)
+      this._opacityVariation = -25
+    else if (this._backOpacity == 0)
+      this._opacityVariation = 25
+    MessageBus.i.publish('input/changed/cover_opacity', {value: this._backOpacity}, true)
+    if (this._activeBack == 1) {
+      document.querySelector('#back1-button').style.display = 'none'
+      document.querySelector('#back2-button').style.display = 'initial'
+    } else {
+      document.querySelector('#back1-button').style.display = 'initial'
+      document.querySelector('#back2-button').style.display = 'none'
+    }
+    this._activeBack = 3 - this._activeBack
   }
 
   playSpace () {

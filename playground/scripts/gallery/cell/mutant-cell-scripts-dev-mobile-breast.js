@@ -19,7 +19,7 @@
   <block type="single"></block>
 </category>`,
 `<dcc-space-cellular-editor id="cellular-space" rows="20" cols="17"
-  cell-width="20" cell-height="20" background-color="#dddddd" grid analysis policy="crescent">
+  cell-width="20" cell-height="20" background-image="https://mc-unicamp.github.io/oficinas/simula/mutant/photo/lactiferous-duct.jpg" grid analysis policy="crescent">
 </dcc-space-cellular-editor>
 
 <dcc-cell-image type="1" label="green" image="images/cell/cell-1.png"></dcc-cell-image>
