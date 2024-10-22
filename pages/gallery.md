@@ -14,6 +14,29 @@ permalink: "/gallery/"
 
 [![Microworlds Analysis](/dcc/assets/images/gallery/microworlds-sliders-datasci.png)](/dcc/dcc/playground/scripts/editor.html?source=cell/microworld-sliders-datasci&mode=no-script-no-hide)
 
+## Mutant Cells
+
+### Skin without Melanin
+
+* [Without Melanin](https://harena-lab.github.io/dcc/dcc/playground/scripts/editor-dev.html?source=cell/mutant-cell-scripts-dev-skin-previous)
+
+<hr>
+
+* [Cells and Rules](https://harena-lab.github.io/dcc/dcc/playground/scripts/gallery/cell-dev/mutant-cell-skin-melanoma.space)
+
+### Skin with Melanin
+
+* [Version 1](https://harena-lab.github.io/dcc/dcc/playground/scripts/editor-dev.html?source=cell/mutant-cell-scripts-dev-skin-1)
+* [Version 2](https://harena-lab.github.io/dcc/dcc/playground/scripts/editor-dev.html?source=cell/mutant-cell-scripts-dev-skin-2)
+
+<hr>
+
+* [Cells and Rules](https://harena-lab.github.io/dcc/dcc/playground/scripts/gallery/cell-dev/mutant-cell-skin.space)
+
+
+
+
+
 # Scripts for Digital Content Components
 
 This environment enables you to edit scripts that control Digital Content Components in a cellular space.
