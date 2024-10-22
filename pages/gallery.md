@@ -22,7 +22,7 @@ permalink: "/gallery/"
 
 <hr>
 
-* [Cells and Rules](https://harena-lab.github.io/dcc/dcc/playground/scripts/gallery/cell-dev/mutant-cell-skin-melanoma.space)
+* [Cells and Rules](https://harena-lab.github.io/dcc/dcc/playground/scripts/gallery/cell-dev/mutant-cell-skin.space)
 
 ### Skin with Melanin
 
@@ -31,11 +31,7 @@ permalink: "/gallery/"
 
 <hr>
 
-* [Cells and Rules](https://harena-lab.github.io/dcc/dcc/playground/scripts/gallery/cell-dev/mutant-cell-skin.space)
-
-
-
-
+* [Cells and Rules](https://harena-lab.github.io/dcc/dcc/playground/scripts/gallery/cell-dev/mutant-cell-skin-melanoma.space)
 
 # Scripts for Digital Content Components
 
