@@ -18,20 +18,28 @@ permalink: "/gallery/"
 
 ### Skin without Melanin
 
-* [Without Melanin](https://harena-lab.github.io/dcc/dcc/playground/scripts/editor-dev.html?source=cell/mutant-cell-scripts-dev-skin-previous)
+* [Wide](https://harena-lab.github.io/dcc/dcc/playground/scripts/editor-dev.html?source=cell/mutant-cell-scripts-dev-skin-1)
+* [Zoom](https://harena-lab.github.io/dcc/dcc/playground/scripts/editor-dev.html?source=cell/mutant-cell-scripts-dev-skin-1-zoom)
+
+#### Cells and Rules
+
+* [Wide](https://harena-lab.github.io/dcc/dcc/playground/scripts/gallery/cell-dev/mutant-cell-skin-1.space)
+* [Zoom](https://harena-lab.github.io/dcc/dcc/playground/scripts/gallery/cell-dev/mutant-cell-skin-1-zoom.space)
+* [Zoom and Thick Skin](https://harena-lab.github.io/dcc/dcc/playground/scripts/gallery/cell-dev/mutant-cell-skin-1-zoom-thick.space)
 
 <hr>
-
-* [Cells and Rules](https://harena-lab.github.io/dcc/dcc/playground/scripts/gallery/cell-dev/mutant-cell-skin.space)
 
 ### Skin with Melanin
 
-* [Version 1](https://harena-lab.github.io/dcc/dcc/playground/scripts/editor-dev.html?source=cell/mutant-cell-scripts-dev-skin-1)
-* [Version 2](https://harena-lab.github.io/dcc/dcc/playground/scripts/editor-dev.html?source=cell/mutant-cell-scripts-dev-skin-2)
+* [Wide](https://harena-lab.github.io/dcc/dcc/playground/scripts/editor-dev.html?source=cell/mutant-cell-scripts-dev-skin-2-melanin)
+* [Zoom](https://harena-lab.github.io/dcc/dcc/playground/scripts/editor-dev.html?source=cell/mutant-cell-scripts-dev-skin-2-melanin-zoom)
+* [Wide - Alternative](https://harena-lab.github.io/dcc/dcc/playground/scripts/editor-dev.html?source=cell/mutant-cell-scripts-dev-skin-3-melanin-alternative)
 
-<hr>
+#### Cells and Rules
 
-* [Cells and Rules](https://harena-lab.github.io/dcc/dcc/playground/scripts/gallery/cell-dev/mutant-cell-skin-melanoma.space)
+* [Wide](https://harena-lab.github.io/dcc/dcc/playground/scripts/gallery/cell-dev/mutant-cell-skin-2-melanin.space)
+* [Zoom](https://harena-lab.github.io/dcc/dcc/playground/scripts/gallery/cell-dev/mutant-cell-skin-2-melanin-zoom.space)
+* [Zoom and Thick Skin](https://harena-lab.github.io/dcc/dcc/playground/scripts/gallery/cell-dev/mutant-cell-skin-2-melanin-zoom-thick.space)
 
 # Scripts for Digital Content Components
 
