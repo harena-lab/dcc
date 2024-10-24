@@ -222,7 +222,7 @@ yypyyyyypyyypyyyyyyy
 <subscribe-dcc target="cellular-space" topic="state/reset" map="reset"></subscribe-dcc>
 <subscribe-dcc target="cellular-space" topic="input/changed/space_scale" map="scale"></subscribe-dcc>`,
 `<div style="flex:36px; max-height:36px; display:flex; flex-direction:row">
-   <img src="images/cell/mela-1-to-2.png" style="flex:10%; max-width:72px; max-height:36px">
+   <img src="images/cell/mela-1-duplicates-2.png" style="flex:10%; max-width:72px; max-height:36px">
    &nbsp;
    <div style="flex:40%; max-height:48px; margin-right:10px; font-size: 2vh">
       <dcc-input-choice variable="c1duplicates" reveal="horizontal" exclusive><dcc-input-option value="0" checked>0</dcc-input-option><dcc-input-option value="5">1</dcc-input-option><dcc-input-option value="20">2</dcc-input-option><dcc-input-option value="30">3</dcc-input-option><dcc-input-option value="60">4</dcc-input-option></dcc-input-choice>
