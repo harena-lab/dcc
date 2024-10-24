@@ -11,7 +11,7 @@
      ['mut-3',   '7', { src: 'images/cell/cell-7.png', width: 25, height: 25, alt: 'mut-3' }],
      ['mut-4',   '8', { src: 'images/cell/cell-5.png', width: 25, height: 25, alt: 'mut-4' }],
      ['purple',  'p', { src: 'images/cell/cell-purple.svg', width: 25, height: 25, alt: 'purple' }],
-     ['tile',    't', { src: 'images/cell/cell-transparent.svg', width: 25, height: 25, alt: 'tile' }],
+     ['tile',    't', { src: 'images/cell/cell-tile.svg', width: 25, height: 25, alt: 'tile' }],
      ['yellow',  'y', { src: 'images/cell/cell-yellow.svg', width: 25, height: 25, alt: 'yellow' }],
      ['brown',   'b', { src: 'images/cell/cell-brown.svg', width: 25, height: 25, alt: 'brown' }],
      ['red',     'r', { src: 'images/cell/cell-red.svg', width: 25, height: 25, alt: 'red' }],
@@ -34,7 +34,7 @@
 <dcc-cell-image type="7" label="mut-3" image="images/cell/cell-7.png"></dcc-cell-image>
 <dcc-cell-image type="8" label="mut-4" image="images/cell/cell-5.png"></dcc-cell-image>
 <dcc-cell-image type="p" label="purple" image="images/cell/cell-purple.svg"></dcc-cell-image>
-<dcc-cell-image type="t" label="tile" image="images/cell/cell-transparent.svg"></dcc-cell-image>
+<dcc-cell-image type="t" label="tile" image="images/cell/cell-tile.svg"></dcc-cell-image>
 <dcc-cell-image type="y" label="yellow" image="images/cell/cell-yellow.svg"></dcc-cell-image>
 <dcc-cell-image type="b" label="brown" image="images/cell/cell-brown.svg"></dcc-cell-image>
 <dcc-cell-image type="r" label="red" image="images/cell/cell-red.svg"></dcc-cell-image>
