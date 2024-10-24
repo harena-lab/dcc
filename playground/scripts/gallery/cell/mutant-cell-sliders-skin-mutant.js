@@ -1,7 +1,7 @@
 (() => {
   AuthorCellManager.instance.insertSource(
     'Mutantes',
-    [['empty', '_', { src: 'images/cell/cell-yellow-green.png', width: 25, height: 25, alt: 'empty' }],
+    [['empty', '_', { src: 'images/cell/cell-yellow-green.svg', width: 25, height: 25, alt: 'empty' }],
     ['stage-1', '1', { src: 'images/cell/cell-4.png', width: 25, height: 25, alt: 'stage-1' }],
     ['stage-2', '2', { src: 'images/cell/cell-3.png', width: 25, height: 25, alt: 'stage-2' }],
     ['stage-3', '3', { src: 'images/cell/cell-2.png', width: 25, height: 25, alt: 'stage-3' }],
