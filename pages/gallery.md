@@ -4,6 +4,12 @@ title: Gallery
 permalink: "/gallery/"
 ---
 
+# Oficinas do Museu
+
+* [Museu](https://harena-lab.github.io/dcc/dcc/playground/scripts/editor-mobile.html?source=cell/mutant-cell-sliders-skin-mutant&mode=no-script-no-hide)
+
+
+
 # Cellular Space
 
 ## Microworlds and Balance of Life
