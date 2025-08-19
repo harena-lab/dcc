@@ -145,12 +145,16 @@ class DCCBlock extends DCCVisual {
        * outer target interface
        */
       presentation = document.querySelector('#' + this.location + sufix)
+      // search for a generic location
+      if (presentation == null &&
+          this._xstyle.startsWith('out')) {
+        presentation = document.querySelector('#' + this.externalLocationType() + sufix)
+      }
       if (presentation != null) {
         if (sufix == '-image' && this.hasAttribute('image')) {
           // <TODO> image works for SVG but not for HTML
           if (presentation.nodeName.toLowerCase() == 'image') {
-            presentation.setAttributeNS(
-              'http://www.w3.org/1999/xlink', 'href', html)
+            presentation.setAttribute('href', html)
           } else { presentation.innerHTML = "<img src='" + html + "'>" }
         } else { presentation[outTarget] = html }
       }

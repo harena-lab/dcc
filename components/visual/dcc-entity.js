@@ -11,6 +11,8 @@ class DCCEntity extends DCCBlock {
 
   async connectedCallback () {
     this._text = (this.hasAttribute('text')) ? this.text : this.innerHTML
+    this._sequence = (this.hasAttribute('sequence')) ? parseInt(this.sequence, 10) : 0
+    this._sequenceCount = 1
     this.innerHTML = ''
 
     super.connectedCallback()
@@ -75,34 +77,49 @@ class DCCEntity extends DCCBlock {
 
   async _renderInterface () {
     // this._presentationEntity = [];
-    if (this._xstyle.startsWith('out')) {
-      await this._applyRender(this.entity,
-        (this._xstyle == 'out-image') ? 'title' : 'innerHTML',
-        'entity')
-
-      if (this.image) { await this._applyRender(this.image, 'image', 'image') }
-
-      if (this._text) {
-        await this._applyRender(this._text,
+    if (this._sequence == 0 || this._sequenceCount == this._sequence) {
+      if (this._xstyle.startsWith('out')) {
+        await this._applyRender((
+          this.entity.endsWith('_') ? this.entity.substring(0, this.entity.length - 1) : this.entity),
           (this._xstyle == 'out-image') ? 'title' : 'innerHTML',
-          'text')
-      }
-    } else {
-      let html = (this.hasAttribute('image'))
-        ? DCCEntity.templateElements.image.replace('[image]', this.image) : ''
-      html = html.replace('[alternative]',
-        (this.hasAttribute('title')) ? " alt='" + this.title + "'" : '')
-      html += DCCEntity.templateElements.text
-        .replace('[entity]', this.entity)
-        .replace('[text]', ((this._text) ? this._text : ''))
-      await this._applyRender(html, 'innerHTML')
-      // this._setPresentation(presentation);
-      // if (this._presentation != null)
-      //    this._presentationEntity.push(this._presentation);
-    }
+          'entity')
 
-    this._presentationIsReady()
-    this.checkActivateAuthor()
+        if (this.image) { await this._applyRender(this.image, 'image', 'image') }
+
+        if (this._text) {
+          await this._applyRender(this._text,
+            (this._xstyle == 'out-image') ? 'title' : 'innerHTML',
+            'text')
+        }
+      } else {
+        let html = (this.hasAttribute('image'))
+          ? DCCEntity.templateElements.image.replace('[image]', this.image) : ''
+        html = html.replace('[alternative]',
+          (this.hasAttribute('title')) ? " alt='" + this.title + "'" : '')
+        html += DCCEntity.templateElements.text
+          .replace('[entity]', this.entity)
+          .replace('[text]', ((this._text) ? this._text : ''))
+        await this._applyRender(html, 'innerHTML')
+        // this._setPresentation(presentation);
+        // if (this._presentation != null)
+        //    this._presentationEntity.push(this._presentation);
+      }
+
+      this._presentationIsReady()
+      this.checkActivateAuthor()
+    }
+  }
+
+  notify (topic, message) {
+    if (!topic.includes('/'))
+      topic = 'action/' + topic
+    switch (topic.toLowerCase()) {
+      case 'action/next/talk':
+        this._sequenceCount++
+        if (this._sequenceCount == this._sequence)
+          this._renderInterface()
+        break
+    }
   }
 
   /* Rendering */
